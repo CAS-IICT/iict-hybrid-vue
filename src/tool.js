@@ -10,14 +10,41 @@ if (TEST) {
 }
 
 export default {
-    // 给出登陆信息
-    getUserInfo: function() {
-        return new Promise(resolve => {
-            plus.call('getUserInfo', {}, function(res) {
-                resolve(res)
+    /*
+    async post(ctl, act, data = {}, load = false) {
+        if (!ctl || !act) throw new Error('no controller or action')
+        let url = `${URL}/${ctl}/${act}`
+        let form = new FormData()
+        for (let i in data) form.append(i, data[i])
+
+        form.append('user', JSON.stringify(this.getUserInfo()))
+        if (load) this.loading(load)
+        try {
+            let res = await axios({
+                method: 'post',
+                headers: { 'content-type': 'application/x-www-form-urlencoded' },
+                url: url,
+                data: form,
+                responseType: 'json',
+                changeOrigin: true // 允许跨域
             })
-        })
+            res = res.data
+            res.status = parseInt(res.status) || 0
+            if (res.status == -1) {
+                Toast.fail(i18n.t('noLogin'))
+                setTimeout(() => {
+                    localStorage.removeItem('user')
+                    return location.replace(`/?did=${localStorage.getItem('did')}`)
+                }, 2000)
+            }
+            return res
+        } catch (e) {
+            throw e
+        } finally {
+            if (load) this.loading(false)
+        }
     },
+    */
     // 获取手机系统
     getOS: function() {
         let device = new Mobile(navigator.userAgent)
@@ -56,7 +83,10 @@ export default {
     // 打开或关闭ios滚动
     scroll: function(flag = true) {
         if (flag == true) document.removeEventListener('touchmove', this.scroll)
-        else document.addEventListener('touchmove', this.scroll, { passive: false })
+        else
+            document.addEventListener('touchmove', this.scroll, {
+                passive: false
+            })
     },
     getParams: function(url) {
         url = location.href
@@ -84,20 +114,6 @@ export default {
             return 'unknown'
         }
     },
-    // 公共支付接口
-    pay: async function(id = 0, type = 1) {
-        return new Promise(resolve => {
-            plus.call('callPay', { id: id, type: type }, function(res) {
-                resolve(res.status)
-            })
-        })
-    },
-    showBack: function(key = false) {
-        plus.call('showBack', { show: key }, function() {})
-    },
-    go: function(url) {
-        plus.call('pushNewPage', { address: url }, function() {})
-    },
-    TEST: TEST,
-    API_URL: API_URL
+    TEST: TEST, //获取当前是否为测试开发环境
+    API_URL: API_URL //获取全局接口URL
 }

@@ -9,15 +9,13 @@
 import plus from '../plus.js'
 export default {
     name: 'Index',
-    data(){
-        return {
-        }
+    data() {
+        return {}
     },
-    mounted(){
-    },
-    methods:{
-        test(){
-            plus.alert('test','test','confirm')
+    mounted() {},
+    methods: {
+        test() {
+            plus.alert('test', 'test', 'confirm')
         }
     }
 }

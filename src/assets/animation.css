@@ -1,0 +1,166 @@
+/*
+ * 常用动画效果css类库
+ */
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s;
+}
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.fade-in-enter-active {
+    transition: opacity 0.3s;
+}
+.fade-in-enter {
+    opacity: 0;
+}
+
+.popout-enter-active {
+    transition: all 0.15s ease;
+}
+.popout-leave-active {
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+.popout-enter {
+    transform: translateY(10rem);
+    opacity: 1;
+}
+.popout-leave-to {
+    opacity: 0;
+}
+
+/* 可以设置不同的进入和离开动画 */
+/* 设置持续时间和动画函数 */
+.slide-fade-enter-active {
+    transition: all 0.3s ease;
+}
+.slide-fade-leave-active {
+    transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for <2.1.8 */ {
+    transform: translateX(10px);
+    opacity: 0;
+}
+
+.slide-enter {
+    transform: translateX(-5rem);
+}
+.slide-enter-active {
+    transition: all 0.3s ease;
+}
+
+.fold-left-enter-active {
+    animation-name: fold-left-in;
+    animation-duration: 0.3s;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
+.fold-left-leave-active {
+    animation-name: fold-left-out;
+    animation-duration: 0.3s;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
+@keyframes fold-left-in {
+    0% {
+        -webkit-transform: translate3d(100%, 0, 0);
+        transform: translate3d(100%, 0, 0);
+        /* visibility: visible; */
+    }
+    /*50% {
+      transform: translate3d(50%, 0, 0);
+    }*/
+    100% {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+}
+@keyframes fold-left-out {
+    0% {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+    /*50% {
+      transform: translate3d(-50%, 0 , 0);
+    }*/
+    100% {
+        -webkit-transform: translate3d(-100%, 0, 0);
+        transform: translate3d(-100%, 0, 0);
+        /* visibility: hidden; */
+    }
+}
+
+.fold-right-enter-active {
+    animation-name: fold-right-in;
+    animation-duration: 0.3s;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
+.fold-right-leave-active {
+    animation-name: fold-right-out;
+    animation-duration: 0.3s;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
+@keyframes fold-right-in {
+    0% {
+        width: 100%;
+        -webkit-transform: translate3d(-100%, 0, 0);
+        transform: translate3d(-100%, 0, 0);
+        /* visibility: visible; */
+    }
+    /*50% {
+      transform: translate3d(50%, 0, 0);
+    }*/
+    100% {
+        width: 100%;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+}
+@keyframes fold-right-out {
+    0% {
+        width: 100%;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+    /*50% {
+      transform: translate3d(-50%, 0 , 0);
+    }*/
+    100% {
+        width: 100%;
+        -webkit-transform: translate3d(100%, 0, 0);
+        transform: translate3d(100%, 0, 0);
+        /* visibility: hidden; */
+    }
+}
+</style>
