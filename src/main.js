@@ -16,6 +16,7 @@ import 'muse-ui/lib/styles/base.less'
 import { Button, Select, Snackbar, Icon } from 'muse-ui'
 import 'muse-ui/lib/styles/theme.less'
 import Toast from 'muse-ui-toast'
+import './assets/iconfont/material-icons.css'
 
 Vue.use(Button)
 Vue.use(Select)
@@ -23,7 +24,7 @@ Vue.use(Toast)
 Vue.use(Snackbar)
 Vue.use(Icon)
 
-// flexible(960)
+flexible(960)
 
 Vue.use(VueLazyload)
 router.beforeEach((to, from, next) => {
