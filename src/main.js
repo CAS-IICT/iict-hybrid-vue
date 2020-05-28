@@ -11,7 +11,19 @@ import './assets/lib.css'
 import VueLazyload from 'vue-lazyload' // 圖片嬾加載
 import flexible from 'flexible.js' //手機自適應
 
-flexible(960)
+//muse-ui用
+import 'muse-ui/lib/styles/base.less'
+import { Button, Select, Snackbar, Icon } from 'muse-ui'
+import 'muse-ui/lib/styles/theme.less'
+import Toast from 'muse-ui-toast'
+
+Vue.use(Button)
+Vue.use(Select)
+Vue.use(Toast)
+Vue.use(Snackbar)
+Vue.use(Icon)
+
+// flexible(960)
 
 Vue.use(VueLazyload)
 router.beforeEach((to, from, next) => {
@@ -26,5 +38,5 @@ Vue.config.productionTip = false
 
 new Vue({
     router,
-    render: h => h(App)
+    render: (h) => h(App)
 }).$mount('#app')
