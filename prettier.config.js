@@ -4,6 +4,7 @@ module.exports = {
     tabWidth: 4,
     semi: false,
     bracketSpacing: true,
-    htmlWhitespaceSensitivity: 'css',
+    htmlWhitespaceSensitivity: 'ignore',
+    arrowParens: 'avoid',
     singleQuote: true
 }

@@ -1,47 +1,23 @@
 <template>
     <div class="index">
         <h1>IICT Hybrid Vue</h1>
-        <!-- <button @click="test(true)">opentest</button> -->
-        <!-- <button @click="test(false)">closetest</button> -->
-        <!-- <mu-container class="button-wrapper">
-            <mu-button color="primary">Primary</mu-button>
-            <mu-button color="secondary">Secondary</mu-button>
-            <mu-button color="success">Success</mu-button>
-            <mu-button color="warning">Warning</mu-button>
-            <mu-button color="info">Info</mu-button>
-            <mu-button color="error">Error</mu-button>
-            <mu-button disabled>disabled</mu-button>
-        </mu-container> -->
-        <!-- <mu-button class="demo-button" @click="test" color="primary">message</mu-button>
-        <mu-button class="demo-button" @click="$toast.success('Hello World')" color="success"
-            >success</mu-button
-        >
-        <mu-button class="demo-button" @click="$toast.warning('Hello World')" color="warning"
-            >warning</mu-button
-        >
-        <mu-button class="demo-button" @click="$toast.info('Hello World')" color="info"
-            >info</mu-button
-        >
-        <mu-button class="demo-button" @click="$toast.error('Hello World')" color="error"
-            >error</mu-button
-        > -->
         <!-- 弹出按钮 -->
         <mu-container>
-            <mu-button class="demo-button" color="primary" @click="alert()">Alert</mu-button>
-            <mu-button class="demo-button" color="secondary" @click="confirm()">Confirm</mu-button>
-            <mu-button class="demo-button" color="teal" @click="prompt()">Prompt</mu-button>
+            <mu-button @click="alert()" class="demo-button" color="primary">Alert</mu-button>
+            <mu-button @click="confirm()" class="demo-button" color="secondary">Confirm</mu-button>
+            <mu-button @click="prompt()" class="demo-button" color="teal">Prompt</mu-button>
         </mu-container>
         <!-- 底部导航栏 -->
         <mu-container style="width: 100%;">
             <mu-bottom-nav :value.sync="shift" shift>
                 <mu-col span="6">
-                    <mu-bottom-nav-item value="home" title="首页" icon="home"></mu-bottom-nav-item>
+                    <mu-bottom-nav-item icon="home" title="首页" value="home"></mu-bottom-nav-item>
                 </mu-col>
                 <mu-col span="6">
                     <mu-bottom-nav-item
-                        value="profile"
-                        title="个人中心"
                         icon="account_circle"
+                        title="个人中心"
+                        value="profile"
                     ></mu-bottom-nav-item>
                 </mu-col>
             </mu-bottom-nav>
