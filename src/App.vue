@@ -10,6 +10,7 @@
 
 <script>
 import $ from './tool.js'
+import plus from './plus.js'
 
 export default {
     name: 'App',
@@ -23,6 +24,7 @@ export default {
         // 当前环境为测试环境，显示vconsole
         if ($.TEST) new window.VConsole()
         console.log($.getOS())
+        plus.setStatusBar('#2196f3')
     }
 }
 </script>
