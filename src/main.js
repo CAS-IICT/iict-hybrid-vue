@@ -13,7 +13,7 @@ import flexible from 'flexible.js' //手機自適應
 
 //muse-ui用
 import 'muse-ui/lib/styles/base.less'
-import { Button, Select, Snackbar, Icon, Dialog, TextField, Grid, BottomNav } from 'muse-ui'
+import { Button, Select, Snackbar, Icon, Dialog, TextField, Grid, BottomNav, AppBar } from 'muse-ui'
 import 'muse-ui/lib/styles/theme.less'
 import Toast from 'muse-ui-toast'
 //字体
@@ -22,6 +22,7 @@ import './assets/iconfont/material-icons.css'
 //Message弹框
 import 'muse-ui-message/dist/muse-ui-message.css'
 import Message from 'muse-ui-message'
+Vue.use(AppBar)
 Vue.use(BottomNav)
 Vue.use(Message)
 Vue.use(Grid)
@@ -48,5 +49,5 @@ Vue.config.productionTip = false
 
 new Vue({
     router,
-    render: (h) => h(App)
+    render: h => h(App)
 }).$mount('#app')

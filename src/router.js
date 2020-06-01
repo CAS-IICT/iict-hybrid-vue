@@ -1,31 +1,40 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from './views/Index.vue'
+import Home from './views/home/Home.vue'
+import Personal from './views/personal/Personal.vue'
 Vue.use(Router)
 
 const router = new Router({
     mode: 'history',
     routes: [
+        // {
+        //     path: '/',
+        //     name: 'index',
+        //     component: Index
+        // },
         {
             path: '/',
-            name: 'index',
-            component: Index
+            redirect: '/index'
         },
         {
             path: '/index',
-            name: 'index',
-            component: () => import('./views/Index.vue'),
-            redirect: 'home',
+            // name: 'index',
+            // component: () => import('./views/Index.vue'),
+            component: Index,
+            // redirect: 'home',
             children: [
                 // 首页
                 {
                     path: '/home',
-                    name: 'home'
+                    // name: 'home',
+                    component: Home
                 },
                 // 个人中心
                 {
                     path: '/personal',
-                    name: 'personal'
+                    // name: 'personal',
+                    component: Personal
                 }
             ]
         }
