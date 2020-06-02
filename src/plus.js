@@ -44,6 +44,7 @@ export default {
         console.log('call plus toast')
         return new Promise(resolve => {
             this.call('toast', { text: text }, function () {
+                console.log('sssssssss')
                 resolve('toast success')
             })
         })

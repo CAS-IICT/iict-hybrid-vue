@@ -44,11 +44,13 @@ export default {
         //         return false
         //     } else return true
         // },
-        login() {
+        async login() {
+            plus.toast('ssss')
             var username = this.form.username
             var password = this.form.password
-            this.$router.replace('/home')
-            plus.signIn(username, password)
+            let res = await plus.signIn(username, password)
+            //console.log(res)
+            //this.$router.replace('/home')
             // console.log(username)
             // console.log(password)
         }
