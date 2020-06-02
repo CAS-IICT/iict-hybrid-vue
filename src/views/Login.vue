@@ -46,7 +46,9 @@ export default {
         // },
         async login() {
             let res = await plus.signIn(this.form.username, this.form.password)
-            console.log(res)
+            if (res.status == 1) await plus.toat(res.msg)
+            else await plus.alert('error', res.msg)
+            plus.go('http://baidu.com', true)
         }
         // var username = this.form.username;
         // var password = this.form.password;
