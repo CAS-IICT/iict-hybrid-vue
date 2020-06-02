@@ -45,8 +45,8 @@ export default {
         //     } else return true
         // },
         async login() {
-            let res = await plus.toast('ssss')
-            console.log(res.status)
+            let res = await plus.signIn(this.form.username, this.form.password)
+            console.log(res)
         }
         // var username = this.form.username;
         // var password = this.form.password;
