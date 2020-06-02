@@ -93,5 +93,13 @@ export default {
                 })
             }
         })
+    },
+    signIn(username, password) {
+        console.log('call plus signIn')
+        return new Promise(resolve => {
+            this.call('signIn', { username: username, password: password }, function (data) {
+                resolve(data)
+            })
+        })
     }
 }

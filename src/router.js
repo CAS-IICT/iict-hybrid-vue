@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Index from './views/Index.vue'
 import Home from './views/home/Home.vue'
 import Personal from './views/personal/Personal.vue'
+import Login from './views/Login.vue'
 Vue.use(Router)
 
 const router = new Router({
@@ -15,11 +16,16 @@ const router = new Router({
         // },
         {
             path: '/',
-            redirect: '/home'
+            redirect: '/login'
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: Login
         },
         {
             path: '/index',
-            // name: 'index',
+            name: 'index',
             // component: () => import('./views/Index.vue'),
             component: Index,
             // redirect: 'home',
@@ -27,13 +33,13 @@ const router = new Router({
                 // 首页
                 {
                     path: '/home',
-                    // name: 'home',
+                    name: 'home',
                     component: Home
                 },
                 // 个人中心
                 {
                     path: '/personal',
-                    // name: 'personal',
+                    name: 'personal',
                     component: Personal
                 }
             ]
