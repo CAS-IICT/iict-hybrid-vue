@@ -45,14 +45,8 @@ export default {
         //     } else return true
         // },
         async login() {
-            plus.toast('ssss')
-            var username = this.form.username
-            var password = this.form.password
-            let res = await plus.signIn(username, password)
-            //console.log(res)
-            //this.$router.replace('/home')
-            // console.log(username)
-            // console.log(password)
+            let res = await plus.toast('ssss')
+            console.log(res.status)
         }
         // var username = this.form.username;
         // var password = this.form.password;

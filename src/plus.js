@@ -2,13 +2,11 @@
 export default {
     setupWebViewJavascriptBridge(callback) {
         if (window.WebViewJavascriptBridge) {
-            console.log('WebViewJavascriptBridge is Ready!')
             return callback(window.WebViewJavascriptBridge)
         } else {
             document.addEventListener(
                 'WebViewJavascriptBridgeReady',
                 function () {
-                    console.log('WebViewJavascriptBridge is Ready!')
                     return callback(window.WebViewJavascriptBridge)
                 },
                 false
@@ -20,7 +18,7 @@ export default {
             if (!bridge) return console.error('[Error] Cant connect to native API')
             if (!handler || !obj || typeof obj !== 'object') return console.error('[Error] Params not right')
             bridge.callHandler(handler, obj, function (data) {
-                if (callback && typeof callback === 'function') return callback(data)
+                if (callback && typeof callback === 'function') return callback(JSON.parse(data))
             })
         })
     },
@@ -35,49 +33,48 @@ export default {
     back() {
         console.log('call plus back')
         return new Promise(resolve => {
-            this.call('back', {}, function () {
-                resolve('back success')
+            this.call('back', {}, function (data) {
+                resolve(data)
             })
         })
     },
     toast(text) {
         console.log('call plus toast')
         return new Promise(resolve => {
-            this.call('toast', { text: text }, function () {
-                console.log('sssssssss')
-                resolve('toast success')
+            this.call('toast', { text: text }, function (data) {
+                resolve(data)
             })
         })
     },
     alert(title, message, btnConfirm = '确定') {
         console.log('call plus alert')
         return new Promise(resolve => {
-            this.call('alert', { title: title, message: message, btnConfirm: btnConfirm }, function () {
-                resolve('alert success')
+            this.call('alert', { title: title, message: message, btnConfirm: btnConfirm }, function (data) {
+                resolve(data)
             })
         })
     },
     setStatusBar(color) {
         console.log('call plus setStatusBar')
         return new Promise(resolve => {
-            this.call('setStatusBar', { color: color }, function () {
-                resolve('setStatusBar success')
+            this.call('setStatusBar', { color: color }, function (data) {
+                resolve(data)
             })
         })
     },
     loading(load = true) {
         console.log('call plus loading')
         return new Promise(resolve => {
-            this.call('loading', { load: load }, function () {
-                resolve('loading success')
+            this.call('loading', { load: load }, function (data) {
+                resolve(data)
             })
         })
     },
     go(url, loading = false) {
         console.log('call plus go')
         return new Promise(resolve => {
-            this.call('go', { url: url, loading: loading }, function () {
-                resolve('go success')
+            this.call('go', { url: url, loading: loading }, function (data) {
+                resolve(data)
             })
         })
     },
@@ -89,8 +86,8 @@ export default {
                     resolve(data)
                 })
             } else {
-                this.call('stopScan', {}, function () {
-                    resolve('stop success')
+                this.call('stopScan', {}, function (data) {
+                    resolve(data)
                 })
             }
         })
