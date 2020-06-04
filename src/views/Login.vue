@@ -10,9 +10,14 @@
                 <mu-form-item label="密码" prop="password" fullWidth labelFloat>
                     <mu-text-field type="password" v-model="form.password" prop="password"></mu-text-field>
                 </mu-form-item>
-                <mu-form-item class="btnBox">
+                <mu-form-item class="btn-box">
                     <mu-button color="primary" @click="login">登录</mu-button>
                     <mu-button color="primary">注册</mu-button>
+                    <mu-button color="primary" @click="scan">扫描</mu-button>
+                </mu-form-item>
+                <mu-form-item class="btn-box">
+                    <mu-button color="primary" @click="showUserInfo">查看信息</mu-button>
+                    <mu-button color="primary" @click="signOut">退出登陆</mu-button>
                 </mu-form-item>
             </mu-form>
         </mu-container>
@@ -25,8 +30,8 @@ export default {
     data() {
         return {
             form: {
-                username: '',
-                password: ''
+                username: 'devilyouwei@gmail.com',
+                password: 'h18015647707'
             }
         }
     },
@@ -46,9 +51,19 @@ export default {
         // },
         async login() {
             let res = await plus.signIn(this.form.username, this.form.password)
-            if (res.status == 1) await plus.toat(res.msg)
-            else await plus.alert('error', res.msg)
-            plus.go('http://baidu.com', true)
+            plus.toast(res.msg)
+        },
+        async signOut() {
+            let res = await plus.signOut()
+            plus.toast(res.msg)
+        },
+        async showUserInfo() {
+            let res = await plus.getClingUserInfo()
+            plus.alert('userinfo', JSON.stringify(res))
+        },
+        async scan() {
+            let res = await plus.scan(true)
+            console.log(res)
         }
         // var username = this.form.username;
         // var password = this.form.password;

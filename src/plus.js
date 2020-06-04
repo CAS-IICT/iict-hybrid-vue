@@ -99,5 +99,21 @@ export default {
                 resolve(data)
             })
         })
+    },
+    signOut() {
+        console.log('call plus signOut')
+        return new Promise(resolve => {
+            this.call('signOut', {}, function (data) {
+                resolve(data)
+            })
+        })
+    },
+    getClingUserInfo() {
+        console.log('call plus get cling user info')
+        return new Promise(resolve => {
+            this.call('getClingUserInfo', {}, function (data) {
+                resolve(data)
+            })
+        })
     }
 }
