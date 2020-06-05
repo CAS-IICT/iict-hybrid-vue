@@ -115,5 +115,21 @@ export default {
                 resolve(data)
             })
         })
+    },
+    checkBle() {
+        console.log('call plus check ble')
+        return new Promise(resolve => {
+            this.call('checkBle', {}, function (data) {
+                resolve(data)
+            })
+        })
+    },
+    openBle() {
+        console.log('call plus open ble')
+        return new Promise(resolve => {
+            this.call('turnOnBle', {}, function (data) {
+                resolve(data)
+            })
+        })
     }
 }

@@ -14,10 +14,15 @@
                     <mu-button color="primary" @click="login">登录</mu-button>
                     <mu-button color="primary">注册</mu-button>
                     <mu-button color="primary" @click="scan">扫描</mu-button>
+                    <mu-button color="primary" @click="scan">扫描</mu-button>
                 </mu-form-item>
                 <mu-form-item class="btn-box">
                     <mu-button color="primary" @click="showUserInfo">查看信息</mu-button>
                     <mu-button color="primary" @click="signOut">退出登陆</mu-button>
+                </mu-form-item>
+                <mu-form-item class="btn-box">
+                    <mu-button color="primary" @click="checkBle">检查蓝牙</mu-button>
+                    <mu-button color="primary" @click="openBle">打开蓝牙</mu-button>
                 </mu-form-item>
             </mu-form>
         </mu-container>
@@ -63,6 +68,14 @@ export default {
         },
         async scan() {
             let res = await plus.scan(true)
+            console.log(res)
+        },
+        async checkBle() {
+            let res = await plus.checkBle()
+            console.log(res)
+        },
+        async openBle() {
+            let res = await plus.openBle()
             console.log(res)
         }
         // var username = this.form.username;
