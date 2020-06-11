@@ -18,6 +18,9 @@ input:focus,
 textarea:focus {
     outline: none;
 }
+.relative {
+    position: relative;
+}
 
 img {
     border: none;

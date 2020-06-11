@@ -3,7 +3,7 @@
         <transition name="fade">
             <div class="index" v-show="show">
                 <!-- <h1>IICT Hybrid Vue</h1> -->
-                <Appbar :title="title[tab]"></Appbar>
+                <appbar :title="title[tab]"></appbar>
                 <router-view></router-view>
                 <!-- 底部导航栏 -->
                 <mu-bottom-nav @change="itemClick">
