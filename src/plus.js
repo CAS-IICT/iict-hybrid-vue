@@ -1,4 +1,4 @@
-/*原生函数调用*/
+/*原生函数调用，与安卓和IOS端进行交互*/
 export default {
     setupWebViewJavascriptBridge(callback) {
         if (window.WebViewJavascriptBridge) {
