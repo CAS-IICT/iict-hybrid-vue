@@ -20,24 +20,8 @@
                         </mu-button>
                     </mu-text-field>
                 </mu-form-item>
-<<<<<<< HEAD
-                <mu-form-item class="btn-box">
-                    <mu-button color="primary" @click="login">登录</mu-button>
-                    <mu-button color="primary">注册</mu-button>
-                    <mu-button color="primary" @click="scan">扫描</mu-button>
-                    <mu-button color="primary" @click="scan">扫描</mu-button>
-                </mu-form-item>
-                <mu-form-item class="btn-box">
-                    <mu-button color="primary" @click="showUserInfo">查看信息</mu-button>
-                    <mu-button color="primary" @click="signOut">退出登陆</mu-button>
-                </mu-form-item>
-                <mu-form-item class="btn-box">
-                    <mu-button color="primary" @click="checkBle">检查蓝牙</mu-button>
-                    <mu-button color="primary" @click="openBle">打开蓝牙</mu-button>
-=======
                 <mu-form-item class="btnBox">
                     <mu-button color="primary" @click="login">登录/注册</mu-button>
->>>>>>> b3f5305... radar
                 </mu-form-item>
             </mu-form>
         </mu-container>
@@ -50,18 +34,12 @@ export default {
     data() {
         return {
             form: {
-<<<<<<< HEAD
-                username: 'devilyouwei@gmail.com',
-                password: 'h18015647707'
-            }
-=======
                 username: '',
                 password: ''
             },
             disabled: false,
             count: 0,
             interval: undefined
->>>>>>> b3f5305... radar
         }
     },
     components: {
@@ -82,30 +60,6 @@ export default {
     },
     methods: {
         async login() {
-<<<<<<< HEAD
-            let res = await plus.signIn(this.form.username, this.form.password)
-            plus.toast(res.msg)
-        },
-        async signOut() {
-            let res = await plus.signOut()
-            plus.toast(res.msg)
-        },
-        async showUserInfo() {
-            let res = await plus.getClingUserInfo()
-            plus.alert('userinfo', JSON.stringify(res))
-        },
-        async scan() {
-            let res = await plus.scan(true)
-            console.log(res)
-        },
-        async checkBle() {
-            let res = await plus.checkBle()
-            console.log(res)
-        },
-        async openBle() {
-            let res = await plus.openBle()
-            console.log(res)
-=======
             // 在Android中使用
             // let res = await plus.signIn(this.form.username, this.form.password)
             // if (res.status == 1) await plus.toat(res.msg)
@@ -130,7 +84,6 @@ export default {
                     this.disabled = false
                 }
             }, 1000)
->>>>>>> b3f5305... radar
         }
 
         // var username = this.form.username;
