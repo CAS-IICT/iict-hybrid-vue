@@ -7,8 +7,8 @@
                 <router-view></router-view>
                 <!-- 底部导航栏 -->
                 <mu-bottom-nav @change="itemClick">
-                    <mu-bottom-nav-item title="首页" icon="home"></mu-bottom-nav-item>
-                    <mu-bottom-nav-item title="个人中心" icon="account_circle"></mu-bottom-nav-item>
+                    <mu-bottom-nav-item title="周边" icon="home"></mu-bottom-nav-item>
+                    <mu-bottom-nav-item title="我的" icon="account_circle"></mu-bottom-nav-item>
                 </mu-bottom-nav>
             </div>
         </transition>
@@ -27,7 +27,7 @@ export default {
             shift: 'movies',
             show: false,
             path: ['/home', '/personal'],
-            title: ['首页', '个人中心'],
+            title: ['周边', '我的'],
             tab: 0
         }
     },

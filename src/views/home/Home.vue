@@ -3,6 +3,10 @@
         <tips></tips>
         <!-- <button @click="scan">scan</button> -->
         <radar></radar>
+        <div class="icon">
+            <i class="iconfont iconlocation"></i>
+            <div class="loacl">定位位置</div>
+        </div>
     </div>
 </template>
 <script>
@@ -20,4 +24,15 @@ export default {
     }
 }
 </script>
-<style scoped></style>
+<style scoped>
+.icon {
+    position: absolute;
+    text-align: center;
+    width: 90px;
+    height: 90px;
+    right: 0;
+}
+.iconfont {
+    font-size: 40px;
+}
+</style>

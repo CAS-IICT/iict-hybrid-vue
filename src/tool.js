@@ -8,9 +8,9 @@ import 'muse-ui-loading/dist/muse-ui-loading.css'
 const TEST = process.env.NODE_ENV === 'development' ? true : false
 let URL
 if (TEST) {
-    URL = 'http://192.168.1.114:3001' //测试服
+    URL = 'http://192.168.1.114:3000' //测试服
 } else {
-    URL = 'http://192.168.1.114:3001' //正式服
+    URL = 'http://192.168.1.114:3000' //正式服
 }
 
 export default {

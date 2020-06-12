@@ -42,6 +42,7 @@ export default {
 <style scoped>
 .radar {
     position: relative;
+    height: 400px;
 }
 div.inner {
     width: 90px;

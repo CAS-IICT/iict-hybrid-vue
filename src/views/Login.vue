@@ -9,13 +9,7 @@
                 </mu-form-item>
                 <mu-form-item label="请输入验证码" prop="password" fullWidth labelFloat>
                     <mu-text-field type="password" v-model="form.password" prop="password" class="relative">
-                        <mu-button
-                            small
-                            class="send-button"
-                            @click="toast(), btnclick()"
-                            :disabled="disabled"
-                            color="success"
-                        >
+                        <mu-button small class="send-button" @click="btnclick()" :disabled="disabled" color="success">
                             {{ btnText }}
                         </mu-button>
                     </mu-text-field>
@@ -69,40 +63,68 @@ export default {
         //单纯的路由跳转
         // this.$router.replace('/home')
         // },
-        async login() {
-            //loading加载模块
-            setTimeout(() => {
-                $.loading(false)
-            }, 3000)
-            var phone = this.form.phonenum
-            console.log(phone)
-            let res = await $.post('User', 'sendCode', { phone: this.form.username }, true)
-            console.log(res)
-        },
-        toast() {
-            this.$toast.info('验证码已发送')
-            // plus.toast('验证码已发送aaa')
-        },
+        // codeconfirm() {
+        //     if (!/^1[34578]\d{9}$/.test(this.phonenum)) {
+        //         console.log('aaa')
+        //     } else {
+        //         //******点击按钮后有个60s的倒计时
+        //         this.disabled = true
+        //         this.count = 60
+        //         // this.getCode() //60s倒计时过后才能调用的事件
+        //         this.interval = setInterval(() => {
+        //             this.count--
+        //             if (this.count == 0) {
+        //                 clearInterval(this.interval)
+        //                 this.disabled = false
+        //             }
+        //         }, 1000)
+        //     }
+        // },
+
+        // 获取验证码模块
         async btnclick() {
             //******loading加载模块
             setTimeout(() => {
                 $.loading(false)
             }, 3000)
-            //******点击按钮后有个60s的倒计时
-            this.disabled = true
-            this.count = 60
-            // this.getCode() //60s倒计时过后才能调用的事件
-            this.interval = setInterval(() => {
-                this.count--
-                if (this.count == 0) {
-                    clearInterval(this.interval)
-                    this.disabled = false
-                }
-            }, 1000)
-            // let resphone = await $.post('User', 'sendCode', { phone: this.form.username }, true)
+            if (!/^1[3456789]\d{9}$/.test(this.form.phonenum)) {
+                // console.log('aaa')
+                this.$toast.info('手机号码有误请重新输入')
+            } else {
+                //******点击按钮后有个60s的倒计时
+                this.disabled = true
+                this.count = 60
+                // this.getCode() //60s倒计时过后才能调用的事件
+                this.interval = setInterval(() => {
+                    this.count--
+                    if (this.count == 0) {
+                        clearInterval(this.interval)
+                        this.disabled = false
+                    }
+                }, 1000)
+            }
+            let res = await $.post('User', 'sendCode', { phone: this.form.phonenum, device: $.getUserAgent() }, true)
             // let respassword = await $.post('User', 'sendCode', { phone: this.form.password }, true)
             // console.log(res)
+        },
+        // 登录注册按钮
+        async login() {
+            //loading加载模块
+            setTimeout(() => {
+                $.loading(false)
+            }, 3000)
+            // var phone = this.form.phonenum
+            // console.log(phone)
+            // let res = await $.post('User', 'sendCode', { phone: this.form.username }, true)
+            // console.log(res)
+            // 单纯的路由跳转
+            this.$router.replace('/home')
+            let res2 = await $.post('User', 'login', { phone: this.form.phonenum, code: this.form.password }, true)
         }
+        //提示验证码已经发送的模块
+        // toast() {
+        //     this.$toast.info('msg')
+        // }
 
         // var username = this.form.username;
         // var password = this.form.password;
