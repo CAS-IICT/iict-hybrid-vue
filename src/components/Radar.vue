@@ -18,6 +18,12 @@ export default {
             del: undefined
         }
     },
+    // mounted() {
+    //     setTimeout(() => {
+    //         this.animatestyle = 'inner'
+    //     }, 1000)
+    // },
+
     methods: {
         // delay() {
         //     setTimeout(function () {
@@ -42,17 +48,17 @@ export default {
 <style scoped>
 .radar {
     position: relative;
-    height: 400px;
+    height: 9rem;
 }
 div.inner {
-    width: 90px;
-    height: 90px;
+    width: 2rem;
+    height: 2rem;
     background: #ff5e5e;
     border-radius: 50%;
     position: fixed;
     left: 50%;
-    margin-left: -45px;
-    margin-top: 152px;
+    margin-left: -0.99rem;
+    margin-top: 3.344rem;
     z-index: 10;
     animation-duration: 2.4s;
     z-index: 10;
@@ -84,11 +90,11 @@ div.inner {
 .avatar {
     position: fixed;
     left: 50%;
-    margin-left: -28px;
-    margin-top: 172px;
+    margin-left: -0.616rem;
+    margin-top: 3.784rem;
     border-radius: 50%;
-    width: 56px;
-    height: 56px;
+    width: 1.232rem;
+    height: 1.232rem;
     background-color: #fff;
     z-index: 11;
 }

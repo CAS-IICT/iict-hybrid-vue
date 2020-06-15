@@ -114,11 +114,33 @@ export default {
         }
     },
     loadObj: null,
+    //等待加载loading模块
     loading(load) {
         if (load) {
             if (this.loadObj) return
             this.loadObj = Loading()
         } else this.loadObj.close()
+    },
+    // 设置localstorage模块
+    setItem(key, data) {
+        try {
+            if (typeof data == 'string') localStorage.setItem(key, data)
+            else if (typeof data == 'object') localStorage.setItem(key, JSON.stringify(data))
+            else localStorage.setItem(key, new String(data))
+        } catch (e) {
+            console.error(e)
+            return false
+        }
+    },
+    getItem(key) {
+        try {
+            return JSON.parse(localStorage.getItem(key))
+        } catch (e) {
+            return localStorage.getItem(key)
+        }
+    },
+    removeItem(key) {
+        localStorage.removeItem(key)
     },
     TEST: TEST, //获取当前是否为测试开发环境
     URL: URL //获取全局接口URL

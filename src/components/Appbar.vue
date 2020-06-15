@@ -31,6 +31,12 @@ export default {
 }
 </script>
 <style scoped>
+.appbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
 .mu-appbar-title {
     padding-left: 0px;
 }

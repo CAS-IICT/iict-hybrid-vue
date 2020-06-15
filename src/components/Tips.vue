@@ -29,7 +29,8 @@ export default {
 <style scoped>
 .tips {
     position: relative;
-    height: 60px;
+    height: 1.6rem;
+    width: 100%;
 }
 .moveleft {
     position: absolute;

@@ -13,4 +13,16 @@ export default {
     // }
 }
 </script>
-<style scoped></style>
+<style scoped>
+.personal {
+    overflow-y: scroll;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    padding-top: 56px;
+    padding-bottom: 56px;
+}
+</style>
