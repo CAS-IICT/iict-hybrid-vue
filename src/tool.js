@@ -1,3 +1,4 @@
+// 和后端进行交互的文件
 import Mobile from 'mobile-detect'
 import plus from './plus.js'
 import axios from 'axios'

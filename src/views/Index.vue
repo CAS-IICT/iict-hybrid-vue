@@ -28,7 +28,9 @@ export default {
             show: false,
             path: ['/home', '/personal'],
             title: ['周边', '我的'],
-            tab: 0
+            // right: ['', '设置'],
+            tab: 0,
+            showBack: true
         }
     },
     components: {
@@ -43,6 +45,9 @@ export default {
         itemClick(e) {
             this.$router.replace(this.path[e])
             this.tab = e
+            // if (e == 1) {
+            //     this.showBack = true
+            // }
         }
     }
 }

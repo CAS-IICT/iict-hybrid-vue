@@ -27,11 +27,11 @@ export default {
 }
 </script>
 <style scoped>
-.tips {
+/* .tips {
     position: relative;
     height: 1.6rem;
     width: 100%;
-}
+} */
 .moveleft {
     position: absolute;
     top: 6px;

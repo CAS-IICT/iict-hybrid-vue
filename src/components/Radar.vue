@@ -14,15 +14,15 @@ export default {
         return {
             flag: false,
             timeout: true,
-            animatestyle: 'inner',
+            animatestyle: '',
             del: undefined
         }
     },
-    // mounted() {
-    //     setTimeout(() => {
-    //         this.animatestyle = 'inner'
-    //     }, 1000)
-    // },
+    mounted() {
+        setTimeout(() => {
+            this.animatestyle = 'inner'
+        }, 1000)
+    },
 
     methods: {
         // delay() {
@@ -46,10 +46,10 @@ export default {
 }
 </script>
 <style scoped>
-.radar {
+/* .radar {
     position: relative;
     height: 9rem;
-}
+} */
 div.inner {
     width: 2rem;
     height: 2rem;

@@ -1,4 +1,4 @@
-/*原生函数调用，与安卓和IOS端进行交互*/
+/*原生函数调用*/
 export default {
     setupWebViewJavascriptBridge(callback) {
         if (window.WebViewJavascriptBridge) {
@@ -12,6 +12,10 @@ export default {
                 false
             )
         }
+        setTimeout(() => {
+            if (!window.WebViewJavascriptBridge)
+                console.error('Not native environment available, fail to init JSBridge')
+        }, 3000)
     },
     call(handler, obj, callback) {
         this.setupWebViewJavascriptBridge(function (bridge) {
@@ -78,11 +82,11 @@ export default {
             })
         })
     },
-    scan(flag = true) {
+    scan(flag = true, time = 10000) {
         console.log('call plus scan devices')
         return new Promise(resolve => {
             if (flag) {
-                this.call('startScan', {}, function (data) {
+                this.call('startScan', { time: time }, function (data) {
                     resolve(data)
                 })
             } else {
@@ -128,6 +132,32 @@ export default {
         console.log('call plus open ble')
         return new Promise(resolve => {
             this.call('turnOnBle', {}, function (data) {
+                resolve(data)
+            })
+        })
+    },
+    scanBle(time = 10000) {
+        console.log('call plus scan ble')
+        return new Promise(resolve => {
+            this.call('scanBle', { time: time }, function (data) {
+                resolve(data)
+            })
+        })
+    },
+    /*
+    getBleMac() {
+        console.log('call plus get bluetooth mac address')
+        return new Promise(resolve => {
+            this.call('getBleMac', {}, function (data) {
+                resolve(data)
+            })
+        })
+    },
+    */
+    getLoc() {
+        console.log('call plus get location')
+        return new Promise(resolve => {
+            this.call('location', {}, function (data) {
                 resolve(data)
             })
         })

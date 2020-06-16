@@ -6,12 +6,12 @@
         <!-- </mu-appbar> -->
         <mu-appbar title="Title" style="width: 100%;" class="example-appbar" color="primary">
             <div class="table">
-                <div class="cell" v-if="showBack" @click="goback"><mu-icon value="keyboard_arrow_left"></mu-icon></div>
+                <div class="cell" v-if="showBack" @click="goback()">
+                    <mu-icon value="keyboard_arrow_left"></mu-icon>
+                </div>
                 <div class="cell">{{ title }}</div>
             </div>
-            <!-- <mu-button icon color="primary"> -->
-
-            <!-- </mu-button> -->
+            <!-- <mu-button flat slot="right">{{ right }}</mu-button> -->
         </mu-appbar>
     </div>
 </template>
@@ -21,21 +21,25 @@ export default {
     props: {
         title: String,
         showBack: Boolean
+        // right: String
     },
     methods: {
         // 添加返回按钮机制，修改路由地址到home或者其他页面
         goback() {
-            this.$router.replace('/home')
+            this.$router.back()
         }
     }
 }
 </script>
 <style scoped>
-.appbar {
+/* .appbar {
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 999;
+} */
+.cell {
+    width: 20px;
 }
 .mu-appbar-title {
     padding-left: 0px;
