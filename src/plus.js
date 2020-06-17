@@ -154,10 +154,20 @@ export default {
         })
     },
     */
-    getLoc() {
+    // type = 1实时天气，2预测天气
+    getWeather(city = '上海', type = 1) {
+        console.log('call plus get weather info')
+        return new Promise(resolve => {
+            this.call('weatherInfo', { type: type, city: city }, function (data) {
+                resolve(data)
+            })
+        })
+    },
+
+    getLoc(type = 2) {
         console.log('call plus get location')
         return new Promise(resolve => {
-            this.call('location', {}, function (data) {
+            this.call('location', { type: type }, function (data) {
                 resolve(data)
             })
         })
