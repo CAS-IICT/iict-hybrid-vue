@@ -4,18 +4,38 @@
         <Appbar title="登录"></Appbar>
         <mu-container class="loginBox">
             <mu-form :model="form" class="mu-demo-form">
-                <mu-form-item label="请输入手机号" prop="phonenum" fullWidth labelFloat>
-                    <mu-text-field v-model="form.phonenum" prop="phonenum" type="number"></mu-text-field>
+                <mu-form-item label="用户名" prop="username" fullWidth labelFloat>
+                    <mu-text-field v-model="form.username" prop="username"></mu-text-field>
                 </mu-form-item>
-                <mu-form-item label="请输入验证码" prop="code" fullWidth labelFloat>
-                    <mu-text-field type="number" v-model="form.code" prop="code" class="relative">
-                        <mu-button small class="send-button" @click="btnclick()" :disabled="disabled" color="success">
-                            {{ btnText }}
-                        </mu-button>
-                    </mu-text-field>
+                <mu-form-item label="密码" prop="password" fullWidth labelFloat>
+                    <mu-text-field type="password" v-model="form.password" prop="password"></mu-text-field>
                 </mu-form-item>
-                <mu-form-item class="btnBox">
-                    <mu-button color="primary" @click="login()">登录/注册</mu-button>
+                <mu-form-item class="btn-box">
+                    <mu-button color="primary" @click="login">登录</mu-button>
+                    <mu-button color="primary">注册</mu-button>
+                    <mu-button color="primary" @click="scan">扫描</mu-button>
+                </mu-form-item>
+                <mu-form-item class="btn-box">
+                    <mu-button color="primary" @click="showUserInfo">查看信息</mu-button>
+                    <mu-button color="primary" @click="signOut">退出登陆</mu-button>
+                </mu-form-item>
+                <mu-form-item class="btn-box">
+                    <mu-button color="primary" @click="checkBle">检查蓝牙</mu-button>
+                    <mu-button color="primary" @click="openBle">打开蓝牙</mu-button>
+                    <mu-button color="primary" @click="scanBle">扫描蓝牙</mu-button>
+                    <mu-button color="primary" @click="getBleMac">获取蓝牙MAC</mu-button>
+                </mu-form-item>
+                <ul>
+                    <li v-for="(item, key) in bleList" :key="key">{{ item.name }}-RSSI-{{ item.rssi }}</li>
+                </ul>
+                <mu-form-item class="btn-box">
+                    <mu-button color="primary" @click="getLoc()">获取高德定位</mu-button>
+                    <mu-button color="primary" @click="getWeather(1)">获取实时天气</mu-button>
+                    <mu-button color="primary" @click="getWeather(2)">获取预测天气</mu-button>
+                </mu-form-item>
+                <mu-form-item class="btn-box">
+                    <mu-button color="primary" @click="cropper()">获取图片裁剪</mu-button>
+                    <img :src="img" alt />
                 </mu-form-item>
             </mu-form>
         </mu-container>
@@ -24,18 +44,15 @@
 <script>
 import plus from '../plus.js'
 import Appbar from '../components/Appbar'
-import $ from '../tool'
 export default {
     data() {
         return {
+            bleList: [],
+            img: '',
             form: {
-                phonenum: '',
-                code: ''
-            },
-            disabled: false,
-            count: 0,
-            interval: undefined,
-            status: ''
+                username: 'devilyouwei@gmail.com',
+                password: 'h18015647707'
+            }
         }
     },
     components: {
@@ -45,70 +62,81 @@ export default {
         setTimeout(() => {
             plus.setStatusBar('#2196f3')
         }, 1000)
-        if ($.getItem('id') && $.getItem('token')) {
-            this.$router.replace('/home')
-        }
-    },
-    unmounted() {
-        clearInterval(this.interval)
-    },
-    computed: {
-        btnText() {
-            return this.count !== 0 ? `${this.count}秒再次获取` : '获取验证码'
-        }
     },
     methods: {
-        // 获取验证码模块
-        async btnclick() {
-            if (!/^1[3456789]\d{9}$/.test(this.form.phonenum)) {
-                // 判断是手机号是否有误
-                this.$toast.error('手机号码有误请重新输入')
-                this.form.phonenum = ''
-            } else {
-                //******点击按钮后有个60s的倒计时
-                this.disabled = true
-                this.count = 60
-                this.interval = setInterval(() => {
-                    this.count--
-                    if (this.count == 0) {
-                        clearInterval(this.interval)
-                        this.disabled = false
-                    }
-                }, 1000)
-            }
-            let res = await $.post('User', 'sendCode', { phone: this.form.phonenum, device: $.getUserAgent() }, true)
-            this.$toast.info(res.msg)
+        // CheckDataIsNull(val) {
+        //     if (val == null || val == '') {
+        //         return false
+        //     } else return true
+        // },
+        async login() {
+            let res = await plus.signIn(this.form.username, this.form.password)
+            plus.toast(res.msg)
+        },
+        async signOut() {
+            let res = await plus.signOut()
+            plus.toast(res.msg)
+        },
+        async showUserInfo() {
+            let res = await plus.getClingUserInfo()
+            plus.alert('userinfo', JSON.stringify(res))
+        },
+        async scan() {
+            let res = await plus.scan(true, 10000)
             console.log(res)
         },
-        // 登录注册按钮
-        async login() {
-            if (!/^\d{6}$/.test(this.form.code)) {
-                //前端先对输入的的验证码的位数进行一次判断，如果不是6位直接提示让重新输入同时清空输入内容
-                this.$toast.error('验证码输入有误，请重新输入')
-                // console.log('aaa')
-
-                this.form.code = ''
+        async scanBle() {
+            this.regBleScanResult()
+            plus.scanBle(15000)
+        },
+        async checkBle() {
+            let res = await plus.checkBle()
+            console.log(res)
+        },
+        async openBle() {
+            let res = await plus.openBle()
+            console.log(res)
+        },
+        async getBleMac() {
+            let res = await plus.getBleMac()
+            console.log(res)
+        },
+        async getLoc() {
+            let res = await plus.getLoc()
+            console.log(res)
+        },
+        async getWeather(type) {
+            let res = await plus.getWeather(type)
+            console.log(res)
+        },
+        async regBleScanResult(batch) {
+            this.bleList = []
+            if (batch) {
+                console.log('register BleOnBatchScanResult')
+                plus.register('BleOnBatchScanResult', res => {
+                    // 注册蓝牙返回消息
+                    let data = JSON.parse(res).data
+                    console.log(data)
+                    this.bleList = data
+                })
             } else {
-                //如果位数满足6位则可以将该数据传递到后端
-                let res = await $.post(
-                    'User',
-                    'login',
-                    { phone: this.form.phonenum, code: this.form.code, device: $.getUserAgent() },
-                    true
-                )
-                console.log(res)
-                this.status = res.status
-                //本地存储
-                $.setItem('token', res.data.token)
-                $.setItem('id', res.data.id)
-                if (this.status == 1) {
-                    //如果一切都没有问题则进行路由跳转
-                    this.$router.replace('/home')
-                } else {
-                    this.$toast.error(res.msg)
-                    this.form.code = ''
-                }
+                console.log('register BleOnScanResult')
+                plus.register('BleOnScanResult', res => {
+                    // 注册蓝牙返回消息
+                    let data = JSON.parse(res).data
+                    if (data.name && data.mac) {
+                        console.log(data)
+                        for (let i in this.bleList)
+                            if (this.bleList[i].name == data.name) return (this.bleList[i] = data)
+                        this.bleList.push(data)
+                    }
+                })
             }
+        },
+        async cropper() {
+            let res = await plus.cropper(true, 300, 300, 100)
+            this.img = res.data
+            console.log(res)
         }
     }
 }
@@ -116,6 +144,7 @@ export default {
 <style>
 .mu-demo-form {
     width: 100%;
+    max-width: 460px;
 }
 
 .btnBox .mu-form-item-content {
@@ -124,10 +153,5 @@ export default {
 
 .loginBox {
     padding: 20% 5%;
-}
-.send-button {
-    position: absolute;
-    right: 0rem;
-    bottom: 0.1rem;
 }
 </style>

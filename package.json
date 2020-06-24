@@ -13,7 +13,6 @@
     "flexible.js": "^2.0.19",
     "mobile-detect": "^1.4.4",
     "muse-ui": "^3.0.2",
-    "muse-ui-loading": "^0.2.0",
     "muse-ui-message": "^0.2.1",
     "muse-ui-toast": "^0.3.0",
     "qs": "^6.9.4",

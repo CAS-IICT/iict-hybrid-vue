@@ -1,28 +1,23 @@
-// 和后端进行交互的文件
 import Mobile from 'mobile-detect'
-import plus from './plus.js'
-import axios from 'axios'
-import Toast from 'muse-ui-toast'
-import Loading from 'muse-ui-loading'
-import 'muse-ui-loading/dist/muse-ui-loading.css'
 
 const TEST = process.env.NODE_ENV === 'development' ? true : false
-let URL
+let API_URL
 if (TEST) {
-    URL = 'http://192.168.1.114:3000' //测试服
+    API_URL = 'https://api.kouhong.le-miao.com/index.php/api' //测试服
 } else {
-    URL = 'http://192.168.1.114:3000' //正式服
+    API_URL = 'https://api.lipstick.lemiao.xyz/index.php/api' //正式服
 }
 
 export default {
+    /*
     async post(ctl, act, data = {}, load = false) {
         if (!ctl || !act) throw new Error('no controller or action')
         let url = `${URL}/${ctl}/${act}`
         let form = new FormData()
         for (let i in data) form.append(i, data[i])
 
-        // form.append('user', JSON.stringify(this.getUserInfo()))
-        if (load) this.loading(true)
+        form.append('user', JSON.stringify(this.getUserInfo()))
+        if (load) this.loading(load)
         try {
             let res = await axios({
                 method: 'post',
@@ -30,25 +25,25 @@ export default {
                 url: url,
                 data: form,
                 responseType: 'json',
-                changeOrigin: true //允许跨域
+                changeOrigin: true // 允许跨域
             })
             res = res.data
             res.status = parseInt(res.status) || 0
             if (res.status == -1) {
-                //提示用户登录失效
+                Toast.fail(i18n.t('noLogin'))
                 setTimeout(() => {
                     localStorage.removeItem('user')
-                    return location.replace(`/?did=${localStorage.getItem('did')}`) //跳转到登录界面
+                    return location.replace(`/?did=${localStorage.getItem('did')}`)
                 }, 2000)
             }
             return res
         } catch (e) {
-            //alert 或者toast提示
+            throw e
         } finally {
-            if (load) this.loading(false) //用户发起请求时可以提示一个loading 可有可无
+            if (load) this.loading(false)
         }
     },
-
+    */
     // 获取手机系统
     getOS: function () {
         let device = new Mobile(navigator.userAgent)
@@ -114,35 +109,6 @@ export default {
             return 'unknown'
         }
     },
-    loadObj: null,
-    //等待加载loading模块
-    loading(load) {
-        if (load) {
-            if (this.loadObj) return
-            this.loadObj = Loading()
-        } else this.loadObj.close()
-    },
-    // 设置localstorage模块
-    setItem(key, data) {
-        try {
-            if (typeof data == 'string') localStorage.setItem(key, data)
-            else if (typeof data == 'object') localStorage.setItem(key, JSON.stringify(data))
-            else localStorage.setItem(key, new String(data))
-        } catch (e) {
-            console.error(e)
-            return false
-        }
-    },
-    getItem(key) {
-        try {
-            return JSON.parse(localStorage.getItem(key))
-        } catch (e) {
-            return localStorage.getItem(key)
-        }
-    },
-    removeItem(key) {
-        localStorage.removeItem(key)
-    },
     TEST: TEST, //获取当前是否为测试开发环境
-    URL: URL //获取全局接口URL
+    API_URL: API_URL //获取全局接口URL
 }

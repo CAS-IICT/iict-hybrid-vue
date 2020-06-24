@@ -51,7 +51,6 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
     next()
 })
-
 /* 页面进入后的事儿
 router.afterEach((to, from) => {
 })

@@ -3,12 +3,12 @@
         <transition name="fade">
             <div class="index" v-show="show">
                 <!-- <h1>IICT Hybrid Vue</h1> -->
-                <appbar :title="title[tab]"></appbar>
+                <Appbar :title="title[tab]"></Appbar>
                 <router-view></router-view>
                 <!-- 底部导航栏 -->
                 <mu-bottom-nav @change="itemClick">
-                    <mu-bottom-nav-item title="周边" icon="home"></mu-bottom-nav-item>
-                    <mu-bottom-nav-item title="我的" icon="account_circle"></mu-bottom-nav-item>
+                    <mu-bottom-nav-item title="首页" icon="home"></mu-bottom-nav-item>
+                    <mu-bottom-nav-item title="个人中心" icon="account_circle"></mu-bottom-nav-item>
                 </mu-bottom-nav>
             </div>
         </transition>
@@ -27,10 +27,8 @@ export default {
             shift: 'movies',
             show: false,
             path: ['/home', '/personal'],
-            title: ['周边', '我的'],
-            // right: ['', '设置'],
-            tab: 0,
-            showBack: true
+            title: ['首页', '个人中心'],
+            tab: 0
         }
     },
     components: {
@@ -45,9 +43,6 @@ export default {
         itemClick(e) {
             this.$router.replace(this.path[e])
             this.tab = e
-            // if (e == 1) {
-            //     this.showBack = true
-            // }
         }
     }
 }

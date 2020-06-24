@@ -154,8 +154,16 @@ export default {
         })
     },
     */
-    // type = 1实时天气，2预测天气
-    getWeather(city = '上海', type = 1) {
+    getLoc() {
+        console.log('call plus get location')
+        return new Promise(resolve => {
+            this.call('location', {}, function (data) {
+                resolve(data)
+            })
+        })
+    },
+    // 1实时天气，2预测天气
+    getWeather(type = 1, city = '上海') {
         console.log('call plus get weather info')
         return new Promise(resolve => {
             this.call('weatherInfo', { type: type, city: city }, function (data) {
@@ -163,11 +171,10 @@ export default {
             })
         })
     },
-
-    getLoc(type = 2) {
-        console.log('call plus get location')
+    cropper(base64 = true, width = 100, height = 100, quality = 100) {
+        console.log('call plus cropper')
         return new Promise(resolve => {
-            this.call('location', { type: type }, function (data) {
+            this.call('cropper', { base64: base64, quality: quality, width: width, height: height }, function (data) {
                 resolve(data)
             })
         })

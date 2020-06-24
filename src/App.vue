@@ -24,8 +24,7 @@ export default {
         // 当前环境为测试环境，显示vconsole
         if ($.TEST) new window.VConsole()
         console.log($.getOS())
-    },
-    mounted() {}
+    }
 }
 </script>
 
