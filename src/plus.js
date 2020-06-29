@@ -178,5 +178,29 @@ export default {
                 resolve(data)
             })
         })
+    },
+    openMapActivity(path = '') {
+        console.log('call plus open map activity')
+        return new Promise(resolve => {
+            this.call('openMapActivity', { path: path }, function (data) {
+                resolve(data)
+            })
+        })
+    },
+    zoomMap(size = 12) {
+        console.log('call plus zoom map')
+        return new Promise(resolve => {
+            this.call('zoomMap', { size: size }, function (data) {
+                resolve(data)
+            })
+        })
+    },
+    setMap(show = true, width = 1080, height = 1080) {
+        console.log('call plus zoom map')
+        return new Promise(resolve => {
+            this.call('setMap', { show: show, width: width, height: height }, function (data) {
+                resolve(data)
+            })
+        })
     }
 }
