@@ -43,6 +43,7 @@
                     <mu-button color="primary" @click="openMapActivity(path)">打开高德地图</mu-button>
                     <input type="number" v-model="size" />
                     <mu-button color="primary" @click="zoomMap(size)">缩放地图</mu-button>
+                    <mu-button color="primary" @click="moveCenter()">移到中心</mu-button>
                 </mu-form-item>
             </mu-form>
         </mu-container>
@@ -71,8 +72,15 @@ export default {
     mounted() {
         setTimeout(() => {
             plus.setStatusBar('#2196f3')
-            plus.setMap(true)
-        }, 1000)
+            plus.setMap({
+                show: 'visible',
+                width: 999999,
+                height: 800,
+                top: 0,
+                left: 0,
+                right: 0
+            })
+        }, 100)
     },
     methods: {
         // CheckDataIsNull(val) {
@@ -157,6 +165,9 @@ export default {
         },
         async zoomMap(size) {
             plus.zoomMap(size)
+        },
+        async moveCenter() {
+            plus.moveMapCenter()
         }
     }
 }

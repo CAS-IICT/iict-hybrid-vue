@@ -195,10 +195,18 @@ export default {
             })
         })
     },
-    setMap(show = true, width = 1080, height = 1080) {
+    setMap(obj = { top: 0, left: 0, bottom: 0, right: 0, show: 'visible', width: 1080, height: 1080 }) {
         console.log('call plus zoom map')
         return new Promise(resolve => {
-            this.call('setMap', { show: show, width: width, height: height }, function (data) {
+            this.call('setMap', obj, function (data) {
+                resolve(data)
+            })
+        })
+    },
+    moveMapCenter() {
+        console.log('call plus move to center of map')
+        return new Promise(resolve => {
+            this.call('moveCenter', {}, function (data) {
                 resolve(data)
             })
         })
