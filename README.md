@@ -80,3 +80,7 @@ vue ui
 MIT License
 
 ## Contributer
+
+Youwei Huang (devilyouwei) huangyw@iict.ac.cn
+
+Huijuan Zhang
