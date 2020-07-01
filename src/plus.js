@@ -196,7 +196,7 @@ export default {
         })
     },
     setMap(obj = { top: 0, left: 0, bottom: 0, right: 0, show: 'visible', width: 1080, height: 1080 }) {
-        console.log('call plus zoom map')
+        console.log('call plus set map')
         return new Promise(resolve => {
             this.call('setMap', obj, function (data) {
                 resolve(data)

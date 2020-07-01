@@ -41,9 +41,6 @@
                     <input type="text" v-model="url" />
                     <mu-button color="primary" @click="openUrl(url)">打开url页面</mu-button>
                     <mu-button color="primary" @click="openMapActivity(path)">打开高德地图</mu-button>
-                    <input type="number" v-model="size" />
-                    <mu-button color="primary" @click="zoomMap(size)">缩放地图</mu-button>
-                    <mu-button color="primary" @click="moveCenter()">移到中心</mu-button>
                 </mu-form-item>
             </mu-form>
         </mu-container>
@@ -57,9 +54,8 @@ export default {
         return {
             bleList: [],
             url: 'http://www.baidu.com',
-            size: '12',
             img: '',
-            path: '',
+            path: '/map',
             form: {
                 username: 'devilyouwei@gmail.com',
                 password: 'h18015647707'
@@ -72,14 +68,6 @@ export default {
     mounted() {
         setTimeout(() => {
             plus.setStatusBar('#2196f3')
-            plus.setMap({
-                show: 'visible',
-                width: 999999,
-                height: 800,
-                top: 0,
-                left: 0,
-                right: 0
-            })
         }, 100)
     },
     methods: {
@@ -162,12 +150,6 @@ export default {
         },
         async openMapActivity(path) {
             plus.openMapActivity(path)
-        },
-        async zoomMap(size) {
-            plus.zoomMap(size)
-        },
-        async moveCenter() {
-            plus.moveMapCenter()
         }
     }
 }

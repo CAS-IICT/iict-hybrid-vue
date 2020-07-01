@@ -4,6 +4,7 @@ import Index from './views/Index.vue'
 import Home from './views/home/Home.vue'
 import Personal from './views/personal/Personal.vue'
 import Login from './views/Login.vue'
+import Map from './views/Map.vue'
 Vue.use(Router)
 
 const router = new Router({
@@ -22,6 +23,11 @@ const router = new Router({
             path: '/login',
             name: 'login',
             component: Login
+        },
+        {
+            path: '/map',
+            name: 'map',
+            component: Map
         },
         {
             path: '/index',

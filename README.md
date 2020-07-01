@@ -64,6 +64,14 @@ vue ui
     获取天气状态
 19. cropper
     从相册或相机获得图片并且截图
+20. openMapActivity
+    打开地图相关的 Activity，注意这是一个全新的 Activity，需给出 path，path 是 vue 对应的路由，例如"/map"
+21. zoomMap
+    缩放地图
+22. setMap
+    初始化地图，不执行的，即使进入了 MapActivity，地图无法显示地图，必须设置 visible,width,height,left,right,bottom,top 等
+23. moveMapCenter
+    把自己的定位移动到地图中心，回到自己位置！
 
 ## Copyright
 
