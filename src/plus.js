@@ -210,5 +210,15 @@ export default {
                 resolve(data)
             })
         })
+    },
+    // 为地图添加标记
+    markMap(obj = { longitude: 0.0, latitude: 0.0, icon: '', title: '', desc: '' }) {
+        console.log('call plus add marker to map')
+        console.log(obj)
+        return new Promise(resolve => {
+            this.call('markMap', obj, function (data) {
+                resolve(data)
+            })
+        })
     }
 }
