@@ -42,6 +42,9 @@
                     <mu-button color="primary" @click="openUrl(url)">打开url页面</mu-button>
                     <mu-button color="primary" @click="openMapActivity(path)">打开高德地图</mu-button>
                 </mu-form-item>
+                <mu-form-item class="btn-box">
+                    <mu-button color="primary" @click="switchStatusColor()">切换状态栏颜色</mu-button>
+                </mu-form-item>
             </mu-form>
         </mu-container>
     </div>
@@ -56,6 +59,7 @@ export default {
             url: 'http://www.baidu.com',
             img: '',
             path: '/map',
+            color: 'dark',
             form: {
                 username: 'devilyouwei@gmail.com',
                 password: 'h18015647707'
@@ -65,11 +69,7 @@ export default {
     components: {
         Appbar: Appbar
     },
-    mounted() {
-        setTimeout(() => {
-            plus.setStatusBar('#2196f3')
-        }, 100)
-    },
+    mounted() {},
     methods: {
         // CheckDataIsNull(val) {
         //     if (val == null || val == '') {
@@ -150,6 +150,15 @@ export default {
         },
         async openMapActivity(path) {
             plus.openMapActivity(path)
+        },
+        async switchStatusColor() {
+            if (this.color == 'dark') {
+                this.color = 'light'
+                plus.setStatusBar('#2196f3', this.color)
+            } else {
+                this.color = 'dark'
+                plus.setStatusBar('#ffffff', this.color)
+            }
         }
     }
 }

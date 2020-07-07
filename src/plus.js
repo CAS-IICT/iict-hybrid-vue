@@ -3,19 +3,18 @@ export default {
     setupWebViewJavascriptBridge(callback) {
         if (window.WebViewJavascriptBridge) {
             return callback(window.WebViewJavascriptBridge)
-        } else {
-            document.addEventListener(
-                'WebViewJavascriptBridgeReady',
-                function () {
-                    return callback(window.WebViewJavascriptBridge)
-                },
-                false
-            )
         }
-        setTimeout(() => {
-            if (!window.WebViewJavascriptBridge)
-                console.error('Not native environment available, fail to init JSBridge')
-        }, 3000)
+        if (window.WVJBCallbacks) {
+            return window.WVJBCallbacks.push(callback)
+        }
+        window.WVJBCallbacks = [callback]
+        var WVJBIframe = document.createElement('iframe')
+        WVJBIframe.style.display = 'none'
+        WVJBIframe.src = 'https://__bridge_loaded__'
+        document.documentElement.appendChild(WVJBIframe)
+        setTimeout(function () {
+            document.documentElement.removeChild(WVJBIframe)
+        }, 0)
     },
     call(handler, obj, callback) {
         this.setupWebViewJavascriptBridge(function (bridge) {
@@ -58,10 +57,11 @@ export default {
             })
         })
     },
-    setStatusBar(color) {
+    // color为字体颜色，只能传入light白色，dark黑色
+    setStatusBar(background = '#000000', color = 'light') {
         console.log('call plus setStatusBar')
         return new Promise(resolve => {
-            this.call('setStatusBar', { color: color }, function (data) {
+            this.call('setStatusBar', { background: background, color: color }, function (data) {
                 resolve(data)
             })
         })
