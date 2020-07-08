@@ -58,10 +58,10 @@ export default {
         })
     },
     // color为字体颜色，只能传入light白色，dark黑色
-    setStatusBar(background = '#000000', color = 'light') {
+    setStatusBar(statusBar = { background: '#000000', color: 'light' }) {
         console.log('call plus setStatusBar')
         return new Promise(resolve => {
-            this.call('setStatusBar', { background: background, color: color }, function (data) {
+            this.call('setStatusBar', statusBar, function (data) {
                 resolve(data)
             })
         })
