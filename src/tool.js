@@ -1,23 +1,21 @@
 import Mobile from 'mobile-detect'
+import axios from 'axios'
 
 const TEST = process.env.NODE_ENV === 'development' ? true : false
 let API_URL
 if (TEST) {
-    API_URL = 'https://api.kouhong.le-miao.com/index.php/api' //测试服
+    API_URL = 'http://192.168.1.79' //测试服
 } else {
-    API_URL = 'https://api.lipstick.lemiao.xyz/index.php/api' //正式服
+    API_URL = 'http://192.168.1.79' //测试服
 }
 
 export default {
-    /*
     async post(ctl, act, data = {}, load = false) {
         if (!ctl || !act) throw new Error('no controller or action')
-        let url = `${URL}/${ctl}/${act}`
+        let url = `${API_URL}/${ctl}/${act}`
         let form = new FormData()
         for (let i in data) form.append(i, data[i])
 
-        form.append('user', JSON.stringify(this.getUserInfo()))
-        if (load) this.loading(load)
         try {
             let res = await axios({
                 method: 'post',
@@ -30,7 +28,6 @@ export default {
             res = res.data
             res.status = parseInt(res.status) || 0
             if (res.status == -1) {
-                Toast.fail(i18n.t('noLogin'))
                 setTimeout(() => {
                     localStorage.removeItem('user')
                     return location.replace(`/?did=${localStorage.getItem('did')}`)
@@ -38,12 +35,10 @@ export default {
             }
             return res
         } catch (e) {
+            console.error(e.message)
             throw e
-        } finally {
-            if (load) this.loading(false)
         }
     },
-    */
     // 获取手机系统
     getOS: function () {
         let device = new Mobile(navigator.userAgent)
@@ -108,6 +103,13 @@ export default {
         } else {
             return 'unknown'
         }
+    },
+    sleep: function (time = 1000) {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve()
+            }, time)
+        })
     },
     TEST: TEST, //获取当前是否为测试开发环境
     API_URL: API_URL //获取全局接口URL

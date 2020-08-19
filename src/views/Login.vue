@@ -18,6 +18,7 @@
                 <mu-form-item class="btn-box">
                     <mu-button color="primary" @click="showUserInfo">查看信息</mu-button>
                     <mu-button color="primary" @click="signOut">退出登陆</mu-button>
+                    <mu-button color="primary" @click="crack">crack</mu-button>
                 </mu-form-item>
                 <mu-form-item class="btn-box">
                     <mu-button color="primary" @click="checkBle">检查蓝牙</mu-button>
@@ -51,6 +52,7 @@
 </template>
 <script>
 import plus from '../plus.js'
+import $ from '../tool.js'
 import Appbar from '../components/Appbar'
 export default {
     data() {
@@ -158,6 +160,39 @@ export default {
             } else {
                 this.color = 'dark'
                 plus.setStatusBar('#ffffff', this.color)
+            }
+        },
+        async crack() {
+            for (let i = 0; i < 10000; i++) {
+                $.post('Test', 'test')
+                    .then(res => {
+                        res = JSON.parse(res)
+                        if (res.status == 1) {
+                            console.log(res)
+                            const long = 120.774837
+                            const lat = 31.293951
+                            const randomx = parseInt($.random(100, 999999)) / 1000000
+                            const randomy = parseInt($.random(100, 999999)) / 1000000
+                            let locData = {
+                                id: res.data.id,
+                                token: '123',
+                                longitude: parseInt($.random(0, 1)) == 0 ? long + randomx : long - randomx,
+                                latitude: parseInt($.random(0, 1)) == 0 ? lat + randomy : lat - randomy,
+                                altitude: 1,
+                                provider: 'test',
+                                time: new Date().getTime() / 1000,
+                                address: 'test',
+                                city: 'test',
+                                area: 'test',
+                                street: 'test'
+                            }
+                            return $.post('GPS', 'updateLocation', locData)
+                        }
+                    })
+                    .then(res => {
+                        console.log(res)
+                    })
+                await $.sleep(1)
             }
         }
     }
