@@ -10,7 +10,7 @@ if (TEST) {
 }
 
 export default {
-    async post(ctl, act, data = {}, load = false) {
+    async post(ctl, act, data = {}) {
         if (!ctl || !act) throw new Error('no controller or action')
         let url = `${API_URL}/${ctl}/${act}`
         let form = new FormData()

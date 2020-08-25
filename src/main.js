@@ -11,29 +11,13 @@ import './assets/lib.css'
 import VueLazyload from 'vue-lazyload' // 圖片嬾加載
 import flexible from 'flexible.js' //手機自適應
 
-//muse-ui用
-import 'muse-ui/lib/styles/base.less'
-import { Button, Select, Snackbar, Icon, Dialog, TextField, Grid, BottomNav, AppBar, Form } from 'muse-ui'
-import 'muse-ui/lib/styles/theme.less'
-import Toast from 'muse-ui-toast'
+import MuseUI from 'muse-ui'
+import 'muse-ui/dist/muse-ui.css'
 //字体
 import './assets/iconfont/material-icons.css'
+Vue.config.productionTip = false
 
-//Message弹框
-import 'muse-ui-message/dist/muse-ui-message.css'
-import Message from 'muse-ui-message'
-Vue.use(Form)
-Vue.use(AppBar)
-Vue.use(BottomNav)
-Vue.use(Message)
-Vue.use(Grid)
-Vue.use(TextField)
-Vue.use(Button)
-Vue.use(Select)
-Vue.use(Toast)
-Vue.use(Snackbar)
-Vue.use(Icon)
-Vue.use(Dialog)
+Vue.use(MuseUI)
 
 flexible(960)
 
@@ -45,8 +29,6 @@ router.beforeEach((to, from, next) => {
     }
     next()
 })
-
-Vue.config.productionTip = false
 
 new Vue({
     router,

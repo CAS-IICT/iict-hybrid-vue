@@ -1,7 +1,7 @@
 <template>
     <!-- <h2>登录页面的测试</h2> -->
     <div class="login">
-        <Appbar title="登录"></Appbar>
+        <Appbar title="登录" class="appbar"></Appbar>
         <mu-container class="loginBox">
             <mu-form :model="form" class="mu-demo-form">
                 <mu-form-item label="用户名" prop="username" fullWidth labelFloat>
@@ -20,15 +20,30 @@
                     <mu-button color="primary" @click="signOut">退出登陆</mu-button>
                     <mu-button color="primary" @click="crack">crack</mu-button>
                 </mu-form-item>
+                <div>BLE: {{ mac.bluetooth }}</div>
+                <div>WIFI: {{ mac.wifi }}</div>
+                <div>UUIDs</div>
+                <div v-for="(item, index) in uuids" :key="index">{{ item }}</div>
                 <mu-form-item class="btn-box">
                     <mu-button color="primary" @click="checkBle">检查蓝牙</mu-button>
                     <mu-button color="primary" @click="openBle">打开蓝牙</mu-button>
                     <mu-button color="primary" @click="scanBle">扫描蓝牙</mu-button>
                     <mu-button color="primary" @click="getBleMac">获取蓝牙MAC</mu-button>
                 </mu-form-item>
-                <ul>
-                    <li v-for="(item, key) in bleList" :key="key">{{ item.name }}-RSSI-{{ item.rssi }}</li>
-                </ul>
+                <mu-list>
+                    <mu-list-item
+                        button
+                        :ripple="true"
+                        v-for="(item, index) in bleList"
+                        :key="index"
+                        @click="connectBle(item)"
+                    >
+                        <mu-list-item-action>
+                            <mu-icon class="iconfont" value=":iconshanfushouhuan"></mu-icon>
+                        </mu-list-item-action>
+                        <mu-list-item-title>{{ item.name }}</mu-list-item-title>
+                    </mu-list-item>
+                </mu-list>
                 <mu-form-item class="btn-box">
                     <mu-button color="primary" @click="getLoc()">获取高德定位</mu-button>
                     <mu-button color="primary" @click="getWeather(1)">获取实时天气</mu-button>
@@ -58,10 +73,15 @@ export default {
     data() {
         return {
             bleList: [],
+            uuids: [],
             url: 'http://www.baidu.com',
             img: '',
             path: '/map',
             color: 'dark',
+            mac: {
+                bluetooth: '',
+                wifi: ''
+            },
             form: {
                 username: 'devilyouwei@gmail.com',
                 password: 'h18015647707'
@@ -71,7 +91,11 @@ export default {
     components: {
         Appbar: Appbar
     },
-    mounted() {},
+    async mounted() {
+        this.uuids = JSON.parse((await plus.setGATT()).data)
+        this.mac = (await plus.getMac()).data
+        console.log(this.mac)
+    },
     methods: {
         // CheckDataIsNull(val) {
         //     if (val == null || val == '') {
@@ -96,7 +120,7 @@ export default {
         },
         async scanBle() {
             this.regBleScanResult()
-            plus.scanBle(15000)
+            plus.scanBle(15000, true)
         },
         async checkBle() {
             let res = await plus.checkBle()
@@ -142,6 +166,11 @@ export default {
                 })
             }
         },
+        connectBle(device) {
+            const info = `uuid: ${device.uuids[0]}\nmac: ${device.mac}\nrssi: ${device.rssi}`
+            plus.alert(device.name, info)
+            //plus.connectBle(device)
+        },
         async cropper() {
             let res = await plus.cropper(true, 300, 300, 100)
             this.img = res.data
@@ -156,10 +185,10 @@ export default {
         async switchStatusColor() {
             if (this.color == 'dark') {
                 this.color = 'light'
-                plus.setStatusBar('#2196f3', this.color)
+                plus.setStatusBar({ background: '#2196f3', color: this.color })
             } else {
                 this.color = 'dark'
-                plus.setStatusBar('#ffffff', this.color)
+                plus.setStatusBar({ background: '#ffffff', color: this.color })
             }
         },
         async crack() {
@@ -199,6 +228,13 @@ export default {
 }
 </script>
 <style>
+.appbar {
+    position: fixed;
+    top: 0;
+    opacity: 1;
+    z-index: 999;
+    width: 100%;
+}
 .mu-demo-form {
     width: 100%;
     max-width: 460px;

@@ -136,13 +136,30 @@ export default {
             })
         })
     },
-    scanBle(time = 10000) {
-        console.log('call plus scan ble')
+    setGATT() {
+        console.log('call plus set GATT Ble Broadcast server')
         return new Promise(resolve => {
-            this.call('scanBle', { time: time }, function (data) {
+            this.call('setGATT', {}, function (data) {
                 resolve(data)
             })
         })
+    },
+    scanBle(time = 10000, lowPower = false) {
+        console.log('call plus scan ble')
+        return new Promise(resolve => {
+            this.call('scanBle', { time: time, lowPower: lowPower }, function (data) {
+                resolve(data)
+            })
+        })
+    },
+    connectBle(device = null) {
+        if (device) {
+            return new Promise(resolve => {
+                this.call('connectBle', device, function (data) {
+                    resolve(data)
+                })
+            })
+        }
     },
     /*
     getBleMac() {
@@ -218,6 +235,14 @@ export default {
         console.log(obj)
         return new Promise(resolve => {
             this.call('markMap', obj, function (data) {
+                resolve(data)
+            })
+        })
+    },
+    getMac() {
+        console.log('call plus get mac address')
+        return new Promise(resolve => {
+            this.call('getMac', {}, function (data) {
                 resolve(data)
             })
         })
