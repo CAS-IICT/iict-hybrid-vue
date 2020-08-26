@@ -29,7 +29,6 @@
                     <mu-button color="primary" @click="openBle">打开蓝牙</mu-button>
                     <mu-button color="primary" @click="scanBle(false)">扫描蓝牙(普通)</mu-button>
                     <mu-button color="primary" @click="scanBle(true)">扫描蓝牙(low power)</mu-button>
-                    <mu-button color="primary" @click="getBleMac">获取蓝牙MAC</mu-button>
                 </mu-form-item>
                 <mu-list>
                     <mu-list-item
@@ -130,10 +129,6 @@ export default {
             let res = await plus.openBle()
             console.log(res)
         },
-        async getBleMac() {
-            let res = await plus.getBleMac()
-            console.log(res)
-        },
         async getLoc() {
             let res = await plus.getLoc()
             console.log(res)
@@ -147,18 +142,18 @@ export default {
             if (batch) {
                 console.log('register BleOnBatchScanResult')
                 plus.register('BleOnBatchScanResult', res => {
+                    console.log(res)
                     // 注册蓝牙返回消息
-                    let data = JSON.parse(res).data
-                    console.log(data)
+                    let data = res.data
                     this.bleList = data
                 })
             } else {
                 console.log('register BleOnScanResult')
                 plus.register('BleOnScanResult', res => {
+                    console.log(res)
                     // 注册蓝牙返回消息
-                    let data = JSON.parse(res).data
+                    let data = res.data
                     if (data.name && data.mac) {
-                        console.log(data)
                         for (let i in this.bleList)
                             if (this.bleList[i].name == data.name) return (this.bleList[i] = data)
                         this.bleList.push(data)

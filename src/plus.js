@@ -29,7 +29,9 @@ export default {
         this.setupWebViewJavascriptBridge(function (bridge) {
             if (!bridge) return console.error('[Error] Cant connect to native API')
             if (!event) return console.error('[Error] event not found')
-            bridge.registerHandler(event, callback)
+            bridge.registerHandler(event, function (data) {
+                if (callback && typeof callback === 'function') return callback(JSON.parse(data))
+            })
         })
     },
     // 返回上一页
