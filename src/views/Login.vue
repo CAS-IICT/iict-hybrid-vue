@@ -27,7 +27,8 @@
                 <mu-form-item class="btn-box">
                     <mu-button color="primary" @click="checkBle">检查蓝牙</mu-button>
                     <mu-button color="primary" @click="openBle">打开蓝牙</mu-button>
-                    <mu-button color="primary" @click="scanBle">扫描蓝牙</mu-button>
+                    <mu-button color="primary" @click="scanBle(false)">扫描蓝牙(普通)</mu-button>
+                    <mu-button color="primary" @click="scanBle(true)">扫描蓝牙(low power)</mu-button>
                     <mu-button color="primary" @click="getBleMac">获取蓝牙MAC</mu-button>
                 </mu-form-item>
                 <mu-list>
@@ -118,9 +119,9 @@ export default {
             let res = await plus.scan(true, 10000)
             console.log(res)
         },
-        async scanBle() {
+        async scanBle(lowpower = false) {
             this.regBleScanResult()
-            plus.scanBle(15000, true)
+            plus.scanBle(15000, lowpower)
         },
         async checkBle() {
             let res = await plus.checkBle()

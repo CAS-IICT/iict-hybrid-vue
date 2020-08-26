@@ -8,7 +8,7 @@
 
 ![logo](http://nwzimg.wezhan.cn/contents/sitefiles2037/10185204/images/12968193.png)
 
-## Project initial
+## Project Initial
 
 ```
 npm install
@@ -22,11 +22,11 @@ vue ui
 
 ## 规范化
 
-采用: Prettier + Eslint 规范
-缩进：4
-引号：单引号
-分号：false
-vue indent: false
+-   采用: Prettier + Eslint 规范
+-   缩进：4
+-   引号：单引号
+-   分号：false
+-   vue indent: false
 
 详细请参考文件：prettier.config.json
 
@@ -48,7 +48,9 @@ vue indent: false
 
     用于请求原生，调用原生的功能，原生方面需要设定好调用的方法名，并绑定相应的回调操作
 
-3. register (deprecated)
+3. register
+
+    用于原生调用 h5 的方法，并从原生传递数据给前端 h5
 
 4. back
 
@@ -125,6 +127,26 @@ vue indent: false
 24. markMap
 
     地图打点，传入经纬度还有图表，标题，解释等。
+
+25. getMac
+
+    获取手机各种 mac 地址
+
+26. setGATT
+
+    建立蓝牙广播服务，lowpower mode，只有 BLE 蓝牙可以扫描到
+
+## Issues
+
+### 关于蓝牙扫描
+
+1. Google 自从 Android 6.0 后禁止使用 getAddress 获得蓝牙 MAC 地址
+2. 自从 Android 10 后全面禁止了获得本机蓝牙 MAC 地址
+3. 使用 UUID 作为蓝牙唯一标识
+4. 在传统蓝牙扫描下无法获得周围的蓝牙设备 UUID，必须采用 lowpower mode 的 BLE 蓝牙
+5. UUID 在 setGATT 时候随机生成，意味着每次调用 setGATT 都会改变，一共四个，其中其他蓝牙扫到的是 serviceUUID
+6. BLE 蓝牙需要在 Android 5.1 以上并且手机硬件支持
+7. Android 8 以下 getMAC 仍然可以获得蓝牙 MAC 地址的
 
 ## Copyright
 
