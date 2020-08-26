@@ -136,10 +136,11 @@ export default {
             })
         })
     },
-    setGATT() {
+    // message为GATT广播携带的信息，字符串
+    setGATT(message = '') {
         console.log('call plus set GATT Ble Broadcast server')
         return new Promise(resolve => {
-            this.call('setGATT', {}, function (data) {
+            this.call('setGATT', { message: message }, function (data) {
                 resolve(data)
             })
         })

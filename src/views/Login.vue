@@ -93,9 +93,8 @@ export default {
         Appbar: Appbar
     },
     async mounted() {
-        this.uuids = JSON.parse((await plus.setGATT()).data)
-        this.mac = (await plus.getMac()).data
-        console.log(this.mac)
+        this.uuids = (await plus.setGATT('example')).data['uuids'] // 设置蓝牙broadcast
+        this.mac = (await plus.getMac()).data // 获取mac
     },
     methods: {
         // CheckDataIsNull(val) {
