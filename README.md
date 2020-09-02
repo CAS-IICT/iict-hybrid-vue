@@ -134,7 +134,11 @@ vue ui
 
 26. setGATT
 
-    建立蓝牙广播服务，lowpower mode，只有 BLE 蓝牙可以扫描到
+    建立蓝牙广播服务，lowpower mode，只有 BLE 蓝牙可以扫描到，参数传入 uuid，当参数null 时，uuid 随机生成
+
+27. getWinSize
+
+    获取屏幕宽高
 
 ## Issues
 
