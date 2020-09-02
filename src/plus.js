@@ -139,7 +139,7 @@ export default {
         })
     },
     // message为GATT广播携带的信息，字符串
-    setGATT(message = '') {
+    setGATT(message = null) {
         console.log('call plus set GATT Ble Broadcast server')
         return new Promise(resolve => {
             this.call('setGATT', { message: message }, function (data) {
@@ -183,7 +183,6 @@ export default {
             })
         })
     },
-
     getLoc() {
         console.log('call plus get location')
         return new Promise(resolve => {
@@ -246,6 +245,14 @@ export default {
         console.log('call plus get mac address')
         return new Promise(resolve => {
             this.call('getMac', {}, function (data) {
+                resolve(data)
+            })
+        })
+    },
+    getWinSize() {
+        console.log('call plus get window size')
+        return new Promise(resolve => {
+            this.call('getWinSize', {}, function (data) {
                 resolve(data)
             })
         })

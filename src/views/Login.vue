@@ -92,8 +92,9 @@ export default {
         Appbar: Appbar
     },
     async mounted() {
-        this.uuids = (await plus.setGATT('example')).data['uuids'] // 设置蓝牙broadcast
+        this.uuids = (await plus.setGATT()).data['uuids'] // 设置蓝牙broadcast
         this.mac = (await plus.getMac()).data // 获取mac
+        this.getWinSize()
     },
     methods: {
         // CheckDataIsNull(val) {
@@ -185,6 +186,10 @@ export default {
                 this.color = 'dark'
                 plus.setStatusBar({ background: '#ffffff', color: this.color })
             }
+        },
+        async getWinSize() {
+            const win = await plus.getWinSize()
+            console.log(win)
         },
         async crack() {
             for (let i = 0; i < 10000; i++) {
