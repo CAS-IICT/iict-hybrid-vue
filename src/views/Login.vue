@@ -11,9 +11,7 @@
                     <mu-text-field type="password" v-model="form.password" prop="password"></mu-text-field>
                 </mu-form-item>
                 <mu-form-item class="btn-box">
-                    <mu-button color="primary" @click="login">登录</mu-button>
-                    <mu-button color="primary">注册</mu-button>
-                    <mu-button color="primary" @click="scan">扫描</mu-button>
+                    <mu-button color="primary" @click="goBand">关于手环</mu-button>
                 </mu-form-item>
                 <mu-form-item class="btn-box">
                     <mu-button color="primary" @click="showUserInfo">查看信息</mu-button>
@@ -102,6 +100,9 @@ export default {
         //         return false
         //     } else return true
         // },
+        goBand() {
+            this.$router.push('/Band')
+        },
         async login() {
             let res = await plus.signIn(this.form.username, this.form.password)
             plus.toast(res.msg)

@@ -256,5 +256,31 @@ export default {
                 resolve(data)
             })
         })
+    },
+    scanBand(time = 10000) {
+        console.log('call plus scan band')
+        return new Promise(resolve => {
+            this.call('scanBand', { time: time }, function (data) {
+                resolve(data)
+            })
+        })
+    },
+    // 传入蓝牙完整设备对象，直接传入通过scan获取的完整蓝牙信息
+    connectBand(bleDevice) {
+        console.log('call plus connect band')
+        return new Promise(resolve => {
+            this.call('connectBand', bleDevice, function (data) {
+                resolve(data)
+            })
+        })
+    },
+    // 断开手环连接
+    disconnectBand() {
+        console.log('call plus disconnect band')
+        return new Promise(resolve => {
+            this.call('disConnectBand', {}, function (data) {
+                resolve(data)
+            })
+        })
     }
 }
