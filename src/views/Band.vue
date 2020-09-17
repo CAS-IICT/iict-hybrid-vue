@@ -4,10 +4,14 @@
         <mu-container class="box">
             <mu-form :model="form" class="mu-demo-form">
                 <p>Scanning: {{ scanning }}</p>
-                <p>Connected: {{ connectDevice }}</p>
+                <p v-if="connectDevice">Connected: {{ connectDevice.name }}</p>
                 <mu-form-item class="btn-box">
                     <mu-button color="primary" @click="scan">扫描手环</mu-button>
                     <mu-button color="primary" @click="disconnect">断开手环</mu-button>
+                </mu-form-item>
+                <mu-form-item class="btn-box">
+                    <mu-button color="primary" @click="bandVersion">手环版本</mu-button>
+                    <mu-button color="primary" @click="bandBattery">手环电量</mu-button>
                 </mu-form-item>
                 <mu-list>
                     <mu-list-item
@@ -30,6 +34,7 @@
 <script>
 import Appbar from '../components/Appbar'
 import plus from '../plus.js'
+import band from '../band.js'
 export default {
     name: 'band',
     components: {
@@ -39,11 +44,13 @@ export default {
         return {
             bleList: [],
             scanning: '',
-            connectDevice: '',
+            connectDevice: null,
             form: {}
         }
     },
     mounted() {
+        this.checkConnectStatus()
+        // 将扫描到的设备放入数组，不能重复
         plus.register('BandOnScanResult', res => {
             if (res.status == 1) {
                 let data = res.data
@@ -61,27 +68,50 @@ export default {
         // 监听连接
         plus.register('OnBandConnected', res => {
             console.log(res)
+            this.checkConnectStatus()
+            this.scanning = ''
         })
         // 监听断开连接
         plus.register('OnBandDisconnected', res => {
             console.log(res)
+            this.checkConnectStatus()
+            this.scanning = ''
         })
     },
     methods: {
         scan() {
             this.bleList = []
-            plus.scanBand(3000).then(res => {
+            band.scanBand(3000).then(res => {
                 this.scanning = 'scanning...'
                 console.log(res)
             })
         },
         connect(item) {
-            plus.connectBand(item).then(res => {
+            band.connectBand(item).then(res => {
                 console.log(res)
+                if (!res.status) return plus.toast(res.msg)
+                this.scanning = 'connecting...'
             })
         },
         disconnect() {
-            plus.disconnectBand().then(res => {
+            band.disconnectBand().then(res => {
+                console.log(res)
+            })
+        },
+        checkConnectStatus() {
+            band.checkBand().then(res => {
+                console.log(res)
+                if (res.status) this.connectDevice = res.data
+                else this.connectDevice = null
+            })
+        },
+        bandVersion() {
+            band.getBandVersion().then(res => {
+                console.log(res)
+            })
+        },
+        bandBattery() {
+            band.getBandBattery().then(res => {
                 console.log(res)
             })
         }
