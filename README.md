@@ -1,23 +1,31 @@
 # IICT Hybrid Vue
 
-项目是中科院计算所苏州构建的 Hybrid 的开发框架，iict-hybrid-vue 对应的是前端部分，同时也作为示范文件，以供对原生接口调用的参考
+项目是中科院计算所苏研院构建的 Hybrid 的开发框架
+
+iict-hybrid-vue 对应的是 hybrid 的前端部分
+
+本项目作为示范，以供对原生接口调用方法的参考
 
 [Android 原生壳点击这里](https://github.com/CAS-IICT/iict-hybrid-android)
 
 [IOS 原生壳点击这里](https://github.com/CAS-IICT/iict-hybrid-ios)
 
-![logo](http://nwzimg.wezhan.cn/contents/sitefiles2037/10185204/images/12968193.png)
-
-## Project Initial
+## 项目初始化
 
 ```
 npm install
 ```
 
-## Open Vue UI to start this project
+## 项目启动
 
 ```
 vue ui
+```
+
+or
+
+```
+npm run dev
 ```
 
 ## 规范化
@@ -134,11 +142,20 @@ vue ui
 
 26. setGATT
 
-    建立蓝牙广播服务，lowpower mode，只有 BLE 蓝牙可以扫描到，参数传入 uuid，当参数null 时，uuid 随机生成
+    建立蓝牙广播服务，lowpower mode，只有 BLE 蓝牙可以扫描到，参数传入 uuid，当参数 null 时，uuid 随机生成
 
 27. getWinSize
 
     获取屏幕宽高
+
+28. scanBand
+    扫描手环，其实和蓝牙扫描用的是同样的方法
+
+29. connectBand
+    连接手环
+
+30. disconnectBand
+    断开手环
 
 ## Issues
 
@@ -152,9 +169,14 @@ vue ui
 6. BLE 蓝牙需要在 Android 5.1 以上并且手机硬件支持
 7. Android 8 以下 getMAC 仍然可以获得蓝牙 MAC 地址的
 
+### 关于手环
+
+-   手环是本项目需求，属于附加 API
+-   采用的是同乐达手环 SDK
+
 ## Copyright
 
-中国科学院计算所苏州研究院
+中国科学院计算技术研究所苏州研究院
 
 MIT License
 
@@ -162,4 +184,4 @@ MIT License
 
 Youwei Huang (devilyouwei) huangyw@iict.ac.cn
 
-Huijuan Zhang
+![logo](http://nwzimg.wezhan.cn/contents/sitefiles2037/10185204/images/12968193.png)
