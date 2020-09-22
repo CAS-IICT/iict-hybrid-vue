@@ -57,5 +57,13 @@ export default {
                 resolve(res)
             })
         })
+    },
+    getBodyTemperature() {
+        console.log('call plus get body temperature')
+        return new Promise(resolve => {
+            plus.call('bodyTemperature', {}, res => {
+                resolve(res)
+            })
+        })
     }
 }

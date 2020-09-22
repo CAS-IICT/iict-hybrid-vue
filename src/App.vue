@@ -10,7 +10,6 @@
 
 <script>
 import $ from './tool.js'
-import plus from './plus.js'
 
 export default {
     name: 'App',

@@ -40,21 +40,21 @@ export default {
         }
     },
     // 获取手机系统
-    getOS: function () {
+    getOS() {
         let device = new Mobile(navigator.userAgent)
         return device.os()
     },
-    getUserAgent: function () {
+    getUserAgent() {
         return new Mobile(navigator.userAgent)
     },
-    stamp2date: function (ns) {
+    stamp2date(ns) {
         return new Date(parseInt(ns) * 1000)
     },
-    date2stamp: function (date) {
+    date2stamp(date) {
         return Date.parse(date) / 1000
     },
     // 传入date对象Date类型，格式String类型
-    formatDate: function (date, fmt) {
+    formatDate(date, fmt) {
         let o = {
             'M+': date.getMonth() + 1, // 月份
             'd+': date.getDate(), // 日
@@ -71,14 +71,14 @@ export default {
         return fmt
     },
     // 打开或关闭ios滚动
-    scroll: function (flag = true) {
+    scroll(flag = true) {
         if (flag == true) document.removeEventListener('touchmove', this.scroll)
         else
             document.addEventListener('touchmove', this.scroll, {
                 passive: false
             })
     },
-    getParams: function (url) {
+    getParams(url) {
         url = location.href
         let theRequest = {}
         let i = url.indexOf('?')
@@ -95,7 +95,7 @@ export default {
         }
         return theRequest
     },
-    getEnv: function () {
+    getEnv() {
         if (/MicroMessenger/.test(window.navigator.userAgent)) {
             return 'wechat'
         } else if (/AlipayClient/.test(window.navigator.userAgent)) {
@@ -104,7 +104,7 @@ export default {
             return 'unknown'
         }
     },
-    sleep: function (time = 1000) {
+    sleep(time = 1000) {
         return new Promise(resolve => {
             setTimeout(() => {
                 resolve()
