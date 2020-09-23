@@ -8,17 +8,25 @@
                 <mu-form-item class="btn-box">
                     <mu-button color="primary" @click="scan">扫描手环</mu-button>
                     <mu-button color="primary" @click="disconnect">断开手环</mu-button>
+                    <mu-button color="primary" @click="syncTime">同步时间(必须)</mu-button>
                 </mu-form-item>
-                <mu-form-item class="btn-box">
-                    <mu-button color="primary" @click="checkConnectStatus">连接状态</mu-button>
-                    <mu-button color="primary" @click="bandVersion">手环版本</mu-button>
-                    <mu-button color="primary" @click="bandBattery">手环电量</mu-button>
-                </mu-form-item>
-                <mu-form-item class="btn-box">
-                    <mu-button color="primary" @click="getTemp">测量体温</mu-button>
-                </mu-form-item>
-                <div v-if="battery">电量：{{ battery }}</div>
-                <div v-if="version">版本：{{ version }}</div>
+                <div v-if="sync">
+                    <mu-form-item class="btn-box">
+                        <mu-button color="primary" @click="checkConnectStatus">连接状态</mu-button>
+                        <mu-button color="primary" @click="bandVersion">手环版本</mu-button>
+                        <mu-button color="primary" @click="bandBattery">手环电量</mu-button>
+                    </mu-form-item>
+                    <mu-form-item class="btn-box">
+                        <mu-button color="primary" @click="getTemp">测量体温</mu-button>
+                        <mu-button color="primary" @click="syncStep">同步计步</mu-button>
+                    </mu-form-item>
+                    <div v-if="battery">电量：{{ battery }}</div>
+                    <div v-if="version">版本：{{ version }}</div>
+                    <div v-if="bodyTemp">体温：{{ bodyTemp }}</div>
+                    <div v-if="step">计步：{{ step }}</div>
+                    <div v-if="distance">距离：{{ distance }}</div>
+                    <div v-if="calories">卡路里：{{ calories }}</div>
+                </div>
                 <mu-list>
                     <mu-list-item
                         button
@@ -53,7 +61,12 @@ export default {
             connectDevice: null,
             form: {},
             battery: null,
-            version: null
+            version: null,
+            bodyTemp: null,
+            step: null,
+            calories: null,
+            distance: null,
+            sync: false
         }
     },
     mounted() {
@@ -84,10 +97,18 @@ export default {
         })
         // 监听体温
         plus.register('BandTestTemperature', res => {
+            this.bodyTemp = res.data.bodyTemperature
             console.log(res)
         })
         plus.register('BandSampleTemperature', res => {
+            this.bodyTemp = res.data.bodyTemperature
             console.log(res)
+        })
+        // 步数变化
+        plus.register('OnBandStepChange', res => {
+            this.step = res.data.step
+            this.distance = res.data.distance
+            this.calories = res.data.calories
         })
     },
     methods: {
@@ -118,11 +139,13 @@ export default {
         },
         bandVersion() {
             band.getBandVersion().then(res => {
+                if (!res.status) return plus.toast(res.msg)
                 this.version = res.data
             })
         },
         bandBattery() {
             band.getBandBattery().then(res => {
+                if (!res.status) return plus.toast(res.msg)
                 this.battery = res.data
             })
         },
@@ -130,6 +153,19 @@ export default {
             band.getBodyTemperature().then(res => {
                 if (!res.status) return plus.toast(res.msg)
                 console.log(res)
+            })
+        },
+        syncStep() {
+            band.syncStep().then(res => {
+                console.log(res)
+                return plus.toast(res.msg)
+            })
+        },
+        syncTime() {
+            band.syncTime().then(res => {
+                console.log(res)
+                if (res.status == 1) this.sync = true
+                return plus.toast(res.msg)
             })
         }
     }

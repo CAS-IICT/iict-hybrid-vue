@@ -43,18 +43,24 @@ export default {
     getBandVersion() {
         console.log('call plus get band version')
         return new Promise(resolve => {
-            plus.call('bandVersion', {})
-            plus.register('BandOnVersion', res => {
-                resolve(res)
+            plus.call('bandVersion', {}, res => {
+                if (!res.status) resolve(res)
+                else
+                    plus.register('OnBandVersion', res => {
+                        resolve(res)
+                    })
             })
         })
     },
     getBandBattery() {
         console.log('call plus get band battery')
         return new Promise(resolve => {
-            plus.call('bandBattery', {})
-            plus.register('BandOnBattery', res => {
-                resolve(res)
+            plus.call('bandBattery', {}, res => {
+                if (!res.status) resolve(res)
+                else
+                    plus.register('OnBandBattery', res => {
+                        resolve(res)
+                    })
             })
         })
     },
@@ -63,6 +69,32 @@ export default {
         return new Promise(resolve => {
             plus.call('bodyTemperature', {}, res => {
                 resolve(res)
+            })
+        })
+    },
+    // 同步计步
+    syncStep() {
+        console.log('call plus sync step')
+        return new Promise(resolve => {
+            plus.call('syncStep', {}, res => {
+                if (!res.status) resolve(res)
+                else
+                    plus.register('OnBandStepSync', res => {
+                        resolve(res)
+                    })
+            })
+        })
+    },
+    // 同步时间
+    syncTime() {
+        console.log('call plus sync band time')
+        return new Promise(resolve => {
+            plus.call('syncBandTime', {}, res => {
+                if (!res.status) resolve(res)
+                else
+                    plus.register('OnBandTimeSync', res => {
+                        resolve(res)
+                    })
             })
         })
     }
