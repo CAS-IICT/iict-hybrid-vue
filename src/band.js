@@ -97,5 +97,74 @@ export default {
                     })
             })
         })
+    },
+    // 同步睡眠
+    syncSleep() {
+        console.log('call plus sync sleep')
+        return new Promise(resolve => {
+            plus.call('syncSleep', {}, res => {
+                if (!res.status) resolve(res)
+                else
+                    plus.register('OnBandSleepSync', res => {
+                        resolve(res)
+                    })
+            })
+        })
+    },
+
+    /* 获取测温状态
+     * 不传默认null，用于获取这个状态值
+     * 传入true或者false，用于设定这个状态值
+     */
+    temperatureStatus(flag = null) {
+        console.log('call plus band temperature status')
+        return new Promise(resolve => {
+            plus.call('temperatureStatus', { flag: flag }, res => {
+                if (!res.status) resolve(res)
+                else console.log(res)
+            })
+        })
+    },
+    syncRate() {
+        console.log('call plus sync rate')
+        return new Promise(resolve => {
+            plus.call('syncRate', {}, res => {
+                if (!res.status) resolve(res)
+                else
+                    plus.register('OnBandRateSync', res => {
+                        resolve(res)
+                    })
+            })
+        })
+    },
+    syncBloodPressure() {
+        console.log('call plus sync blood pressure')
+        return new Promise(resolve => {
+            plus.call('syncBloodPressure', {}, res => {
+                if (!res.status) resolve(res)
+                else
+                    plus.register('OnBandBloodPressureSync', res => {
+                        resolve(res)
+                    })
+            })
+        })
+    },
+    // 测心率
+    testRate(flag = true) {
+        console.log('call plus test rate')
+        return new Promise(resolve => {
+            plus.call('testRate', { flag: flag }, res => {
+                resolve(res)
+            })
+        })
+    },
+    // 测血压
+    testBloodPressure(flag = true) {
+        console.log('call plus test blood pressure')
+        return new Promise(resolve => {
+            plus.call('testBloodPressure', { flag: flag }, res => {
+                resolve(res)
+            })
+        })
     }
 }

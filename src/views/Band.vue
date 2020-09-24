@@ -17,8 +17,16 @@
                         <mu-button color="primary" @click="bandBattery">手环电量</mu-button>
                     </mu-form-item>
                     <mu-form-item class="btn-box">
-                        <mu-button color="primary" @click="getTemp">测量体温</mu-button>
+                        <mu-button color="primary" @click="temperatureStatus()">测状态</mu-button>
+                        <mu-button color="primary" @click="getTemp">测体温</mu-button>
+                        <mu-button color="primary" @click="testRate">测心率</mu-button>
+                        <mu-button color="primary" @click="testBloodPressure">测血压</mu-button>
+                    </mu-form-item>
+                    <mu-form-item class="btn-box">
                         <mu-button color="primary" @click="syncStep">同步计步</mu-button>
+                        <mu-button color="primary" @click="syncSleep">同步睡眠</mu-button>
+                        <mu-button color="primary" @click="syncRate">同步心率</mu-button>
+                        <mu-button color="primary" @click="syncBloodPressure">同步血压</mu-button>
                     </mu-form-item>
                     <div v-if="battery">电量：{{ battery }}</div>
                     <div v-if="version">版本：{{ version }}</div>
@@ -26,6 +34,8 @@
                     <div v-if="step">计步：{{ step }}</div>
                     <div v-if="distance">距离：{{ distance }}</div>
                     <div v-if="calories">卡路里：{{ calories }}</div>
+                    <div v-if="rate">心率：{{ rate }}</div>
+                    <div v-if="bloodPressure">血压：{{ bloodPressure }}</div>
                 </div>
                 <mu-list>
                     <mu-list-item
@@ -66,6 +76,8 @@ export default {
             step: null,
             calories: null,
             distance: null,
+            rate: null,
+            bloodPressure: null,
             sync: false
         }
     },
@@ -166,6 +178,46 @@ export default {
                 console.log(res)
                 if (res.status == 1) this.sync = true
                 return plus.toast(res.msg)
+            })
+        },
+        syncSleep() {
+            band.syncSleep().then(res => {
+                console.log(res)
+                return plus.toast(res.msg)
+            })
+        },
+        temperatureStatus(flag) {
+            band.temperatureStatus(flag).then(res => {
+                console.log(res)
+                return plus.toast(res.msg)
+            })
+        },
+        syncRate() {
+            band.syncRate().then(res => {
+                console.log(res)
+                return plus.toast(res.msg)
+            })
+        },
+        syncBloodPressure() {
+            band.syncBloodPressure().then(res => {
+                console.log(res)
+                return plus.toast(res.msg)
+            })
+        },
+        testRate() {
+            band.testRate().then(res => {
+                plus.toast(res.msg)
+            })
+            plus.register('OnBandRateChange', res => {
+                this.rate = res.data.rate + '/' + res.data.status
+            })
+        },
+        testBloodPressure() {
+            band.testBloodPressure().then(res => {
+                plus.toast(res.msg)
+            })
+            plus.register('OnBandBloodPressureChange', res => {
+                this.bloodPressure = res.data.p0 + '/' + res.data.p1 + '/' + res.data.p2
             })
         }
     }
