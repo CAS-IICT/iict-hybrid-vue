@@ -30,7 +30,7 @@ export default {
             if (!bridge) return console.error('[Error] Cant connect to native API')
             if (!event) return console.error('[Error] event not found')
             bridge.registerHandler(event, function (data) {
-                if (callback && typeof callback === 'function') return callback(JSON.parse(data))
+                if (callback && typeof callback === 'function') return callback(data && JSON.parse(data))
             })
         })
     },

@@ -6,109 +6,148 @@ import plus from './plus'
  * huangyw@iict.ac.cn
  */
 export default {
-    scanBand(time = 10000) {
-        console.log('call plus scan band')
-        return new Promise(resolve => {
-            plus.call('scanBand', { time: time }, function (data) {
-                resolve(data)
+    // 初始化手环解锁加锁事件
+    init() {
+        if (!this.INIT) {
+            console.log('INIT BAND JS API')
+            plus.register('BandLock', () => {
+                this.lock()
             })
+            plus.register('BandUnlock', () => {
+                this.unlock()
+            })
+            this.INIT = 1
+        }
+    },
+    /*
+     * 扫描手环
+     * time: 扫描持续时间
+     * callback: 扫到结果回调
+     * callback2: 扫描结束后回调
+     */
+    scanBand(time = 10000, callback, callback2) {
+        console.log('call plus scan band')
+        plus.call('scanBand', { time: time }, res => {
+            if (!res.status) callback(res)
+            else {
+                plus.register('OnBandScanResult', res => {
+                    callback(res)
+                })
+                plus.register('OnBandScanFinish', res => {
+                    callback2(res)
+                })
+            }
         })
     },
-    // 传入蓝牙完整设备对象，直接传入通过scan获取的完整蓝牙信息
-    connectBand(bleDevice) {
+    /* 传入蓝牙完整设备对象，直接传入通过scan获取的完整蓝牙信息
+     * bleDevice: 蓝牙设备对象
+     * callback: 连上设备
+     * callback2: 断开设备
+     */
+    connectBand(bleDevice, callback, callback2) {
+        if (this.lock()) return console.log('LOCK')
         console.log('call plus connect band')
-        return new Promise(resolve => {
-            plus.call('connectBand', bleDevice, function (data) {
-                resolve(data)
-            })
+        plus.call('connectBand', bleDevice, res => {
+            if (!res.status) callback(res)
+            else {
+                plus.register('OnBandConnected', res => {
+                    callback(res)
+                })
+                plus.register('OnBandDisconnected', res => {
+                    callback2(res)
+                })
+            }
         })
     },
     // 断开手环连接
-    disconnectBand() {
+    disconnectBand(callback) {
+        if (this.lock()) return console.log('LOCK')
         console.log('call plus disconnect band')
-        return new Promise(resolve => {
-            plus.call('disConnectBand', {}, function (data) {
-                resolve(data)
+        plus.call('disConnectBand', {}, () => {
+            plus.register('OnBandDisconnected', res => {
+                callback(res)
             })
         })
     },
-    checkBand() {
+    // 检查连接状态
+    checkBand(callback) {
         console.log('call plus check band')
-        return new Promise(resolve => {
-            plus.call('checkBand', {}, function (data) {
-                resolve(data)
-            })
+        plus.call('checkBand', {}, res => {
+            callback(res)
         })
     },
-    getBandVersion() {
+    getBandVersion(callback) {
+        if (this.lock()) return console.log('LOCK')
         console.log('call plus get band version')
-        return new Promise(resolve => {
-            plus.call('bandVersion', {}, res => {
-                if (!res.status) resolve(res)
-                else
-                    plus.register('OnBandVersion', res => {
-                        resolve(res)
-                    })
-            })
+        plus.call('bandVersion', {}, res => {
+            if (!res.status) callback(res)
+            else
+                plus.register('OnBandVersion', res => {
+                    callback(res)
+                })
         })
     },
-    getBandBattery() {
+    getBandBattery(callback) {
+        if (this.lock()) return console.log('LOCK')
         console.log('call plus get band battery')
-        return new Promise(resolve => {
-            plus.call('bandBattery', {}, res => {
-                if (!res.status) resolve(res)
-                else
-                    plus.register('OnBandBattery', res => {
-                        resolve(res)
-                    })
-            })
+        plus.call('bandBattery', {}, res => {
+            if (!res.status) callback(res)
+            else
+                plus.register('OnBandBattery', res => {
+                    callback(res)
+                })
         })
     },
-    getBodyTemperature() {
+    getBodyTemperature(callback) {
+        if (this.lock()) return console.log('LOCK')
         console.log('call plus get body temperature')
-        return new Promise(resolve => {
-            plus.call('bodyTemperature', {}, res => {
-                resolve(res)
-            })
+        plus.call('bodyTemperature', {}, res => {
+            if (!res.status) callback(res)
+            else {
+                // 监听体温回调
+                plus.register('BandTestTemperature', res => {
+                    callback(res)
+                })
+                plus.register('BandSampleTemperature', res => {
+                    callback(res)
+                })
+            }
         })
     },
     // 同步计步
-    syncStep() {
+    syncStep(callback) {
+        if (this.lock()) return console.log('LOCK')
         console.log('call plus sync step')
-        return new Promise(resolve => {
-            plus.call('syncStep', {}, res => {
-                if (!res.status) resolve(res)
-                else
-                    plus.register('OnBandStepSync', res => {
-                        resolve(res)
-                    })
-            })
+        plus.call('syncStep', {}, res => {
+            if (!res.status) callback(res)
+            else
+                plus.register('OnBandStepSync', res => {
+                    callback(res)
+                })
         })
     },
     // 同步时间
-    syncTime() {
+    syncTime(callback) {
+        if (this.lock()) return console.log('LOCK')
         console.log('call plus sync band time')
-        return new Promise(resolve => {
-            plus.call('syncBandTime', {}, res => {
-                if (!res.status) resolve(res)
-                else
-                    plus.register('OnBandTimeSync', res => {
-                        resolve(res)
-                    })
-            })
+        plus.call('syncBandTime', {}, res => {
+            if (!res.status) callback(res)
+            else
+                plus.register('OnBandTimeSync', res => {
+                    callback(res)
+                })
         })
     },
     // 同步睡眠
-    syncSleep() {
+    syncSleep(callback) {
+        if (this.lock()) return console.log('LOCK')
         console.log('call plus sync sleep')
-        return new Promise(resolve => {
-            plus.call('syncSleep', {}, res => {
-                if (!res.status) resolve(res)
-                else
-                    plus.register('OnBandSleepSync', res => {
-                        resolve(res)
-                    })
-            })
+        plus.call('syncSleep', {}, res => {
+            if (!res.status) callback(res)
+            else
+                plus.register('OnBandSleepSync', res => {
+                    callback(res)
+                })
         })
     },
 
@@ -117,6 +156,7 @@ export default {
      * 传入true或者false，用于设定这个状态值
      */
     temperatureStatus(flag = null) {
+        if (this.lock()) return console.log('LOCK')
         console.log('call plus band temperature status')
         return new Promise(resolve => {
             plus.call('temperatureStatus', { flag: flag }, res => {
@@ -125,46 +165,60 @@ export default {
             })
         })
     },
-    syncRate() {
+    syncRate(callback) {
+        if (this.lock()) return console.log('LOCK')
         console.log('call plus sync rate')
-        return new Promise(resolve => {
-            plus.call('syncRate', {}, res => {
-                if (!res.status) resolve(res)
-                else
-                    plus.register('OnBandRateSync', res => {
-                        resolve(res)
-                    })
-            })
+        plus.call('syncRate', {}, res => {
+            if (!res.status) callback(res)
+            else
+                plus.register('OnBandRateSync', res => {
+                    callback(res)
+                })
         })
     },
-    syncBloodPressure() {
+    syncBloodPressure(callback) {
+        if (this.lock()) return console.log('LOCK')
         console.log('call plus sync blood pressure')
-        return new Promise(resolve => {
-            plus.call('syncBloodPressure', {}, res => {
-                if (!res.status) resolve(res)
-                else
-                    plus.register('OnBandBloodPressureSync', res => {
-                        resolve(res)
-                    })
-            })
+        plus.call('syncBloodPressure', {}, res => {
+            if (!res.status) callback(res)
+            else
+                plus.register('OnBandBloodPressureSync', res => {
+                    callback(res)
+                })
         })
     },
     // 测心率
-    testRate(flag = true) {
+    testRate(flag = true, callback) {
+        if (this.lock()) return console.log('LOCK')
         console.log('call plus test rate')
-        return new Promise(resolve => {
-            plus.call('testRate', { flag: flag }, res => {
-                resolve(res)
-            })
+        plus.call('testRate', { flag: flag }, res => {
+            if (!res.status) callback(res)
+            else
+                plus.register('OnBandRateChange', res => {
+                    callback(res)
+                })
         })
     },
     // 测血压
-    testBloodPressure(flag = true) {
+    testBloodPressure(flag = true, callback) {
+        if (this.lock()) return console.log('LOCK')
         console.log('call plus test blood pressure')
-        return new Promise(resolve => {
-            plus.call('testBloodPressure', { flag: flag }, res => {
-                resolve(res)
-            })
+        plus.call('testBloodPressure', { flag: flag }, res => {
+            if (!res.status) callback(res)
+            else
+                plus.register('OnBandBloodPressureChange', res => {
+                    callback(res)
+                })
         })
+    },
+    // 互斥锁机制，手环的功能不可以并发执行
+    INIT: 0,
+    LOCK: 0,
+    lock() {
+        return this.LOCK++
+    },
+    unlock() {
+        console.log('UNLOCK')
+        this.LOCK = 0
     }
 }

@@ -8,6 +8,7 @@
                 <mu-form-item class="btn-box">
                     <mu-button color="primary" @click="scan">扫描手环</mu-button>
                     <mu-button color="primary" @click="disconnect">断开手环</mu-button>
+                    <mu-button color="primary" @click="unlock">强制解锁</mu-button>
                     <mu-button color="primary" @click="syncTime">同步时间(必须)</mu-button>
                 </mu-form-item>
                 <div v-if="sync">
@@ -17,7 +18,7 @@
                         <mu-button color="primary" @click="bandBattery">手环电量</mu-button>
                     </mu-form-item>
                     <mu-form-item class="btn-box">
-                        <mu-button color="primary" @click="temperatureStatus()">测状态</mu-button>
+                        <mu-button color="primary" @click="temperatureStatus(false)">测状态</mu-button>
                         <mu-button color="primary" @click="getTemp">测体温</mu-button>
                         <mu-button color="primary" @click="testRate">测心率</mu-button>
                         <mu-button color="primary" @click="testBloodPressure">测血压</mu-button>
@@ -83,39 +84,6 @@ export default {
     },
     mounted() {
         this.checkConnectStatus()
-        // 将扫描到的设备放入数组，不能重复
-        plus.register('BandOnScanResult', res => {
-            if (res.status == 1) {
-                let data = res.data
-                if (data.name && data.mac) {
-                    for (let i in this.bleList) if (this.bleList[i].name == data.name) return (this.bleList[i] = data)
-                    this.bleList.push(data)
-                }
-            }
-        })
-        // 监听扫描结束
-        plus.register('BandFinishScan', res => {
-            this.scanning = ''
-        })
-        // 监听连接
-        plus.register('OnBandConnected', res => {
-            this.checkConnectStatus()
-            this.scanning = ''
-        })
-        // 监听断开连接
-        plus.register('OnBandDisconnected', res => {
-            this.checkConnectStatus()
-            this.scanning = ''
-        })
-        // 监听体温
-        plus.register('BandTestTemperature', res => {
-            this.bodyTemp = res.data.bodyTemperature
-            console.log(res)
-        })
-        plus.register('BandSampleTemperature', res => {
-            this.bodyTemp = res.data.bodyTemperature
-            console.log(res)
-        })
         // 步数变化
         plus.register('OnBandStepChange', res => {
             this.step = res.data.step
@@ -126,62 +94,85 @@ export default {
     methods: {
         scan() {
             this.bleList = []
-            band.scanBand(3000).then(res => {
-                this.scanning = 'scanning...'
-                console.log(res)
-            })
+            band.scanBand(
+                3000,
+                res => {
+                    this.scanning = 'scanning...'
+                    if (res.status == 1) {
+                        let data = res.data
+                        if (data.name && data.mac) {
+                            for (let i in this.bleList)
+                                if (this.bleList[i].name == data.name) return (this.bleList[i] = data)
+                            this.bleList.push(data)
+                        }
+                    }
+                },
+                () => {
+                    this.scanning = ''
+                }
+            )
         },
         connect(item) {
-            band.connectBand(item).then(res => {
-                console.log(res)
-                if (!res.status) return plus.toast(res.msg)
-                this.scanning = 'connecting...'
-            })
+            this.scanning = 'connecting...'
+            band.connectBand(
+                item,
+                () => {
+                    this.scanning = 'connected'
+                    band.checkBand(res => {
+                        this.connectDevice = res.data
+                    })
+                },
+                () => {
+                    this.scanning = 'disconnected'
+                    this.connectDevice = null
+                }
+            )
         },
         disconnect() {
-            band.disconnectBand().then(res => {
-                console.log(res)
+            band.disconnectBand(res => {
+                this.connectDevice = res.data
+                this.scanning = 'disconnected'
             })
         },
         checkConnectStatus() {
-            band.checkBand().then(res => {
+            band.checkBand(res => {
                 if (res.status) (this.connectDevice = res.data), plus.toast('连上了：' + this.connectDevice.name)
                 else (this.connectDevice = null), plus.toast('无手环：' + res.msg)
             })
         },
         bandVersion() {
-            band.getBandVersion().then(res => {
+            band.getBandVersion(res => {
                 if (!res.status) return plus.toast(res.msg)
                 this.version = res.data
             })
         },
         bandBattery() {
-            band.getBandBattery().then(res => {
+            band.getBandBattery(res => {
                 if (!res.status) return plus.toast(res.msg)
                 this.battery = res.data
             })
         },
         getTemp() {
-            band.getBodyTemperature().then(res => {
+            band.getBodyTemperature(res => {
                 if (!res.status) return plus.toast(res.msg)
-                console.log(res)
+                this.bodyTemp = res.data.bodyTemperature
             })
         },
         syncStep() {
-            band.syncStep().then(res => {
+            band.syncStep(res => {
                 console.log(res)
                 return plus.toast(res.msg)
             })
         },
         syncTime() {
-            band.syncTime().then(res => {
+            band.syncTime(res => {
                 console.log(res)
                 if (res.status == 1) this.sync = true
                 return plus.toast(res.msg)
             })
         },
         syncSleep() {
-            band.syncSleep().then(res => {
+            band.syncSleep(res => {
                 console.log(res)
                 return plus.toast(res.msg)
             })
@@ -193,32 +184,31 @@ export default {
             })
         },
         syncRate() {
-            band.syncRate().then(res => {
+            band.syncRate(res => {
                 console.log(res)
                 return plus.toast(res.msg)
             })
         },
         syncBloodPressure() {
-            band.syncBloodPressure().then(res => {
+            band.syncBloodPressure(res => {
                 console.log(res)
                 return plus.toast(res.msg)
             })
         },
         testRate() {
-            band.testRate().then(res => {
-                plus.toast(res.msg)
-            })
-            plus.register('OnBandRateChange', res => {
-                this.rate = res.data.rate + '/' + res.data.status
+            band.testRate(true, res => {
+                if (!res.status) return plus.toast(res.msg)
+                else this.rate = res.data.status + '/' + res.data.rate
             })
         },
         testBloodPressure() {
-            band.testBloodPressure().then(res => {
-                plus.toast(res.msg)
+            band.testBloodPressure(true, res => {
+                if (!res.status) return plus.toast(res.msg)
+                else this.bloodPressure = res.data.p0 + '/' + res.data.p1 + '/' + res.data.p2
             })
-            plus.register('OnBandBloodPressureChange', res => {
-                this.bloodPressure = res.data.p0 + '/' + res.data.p1 + '/' + res.data.p2
-            })
+        },
+        unlock() {
+            band.unlock()
         }
     }
 }
