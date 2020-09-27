@@ -97,15 +97,15 @@ export default {
             band.scanBand(
                 3000,
                 res => {
-                    this.scanning = 'scanning...'
                     if (res.status == 1) {
+                        this.scanning = 'scanning...'
                         let data = res.data
                         if (data.name && data.mac) {
                             for (let i in this.bleList)
                                 if (this.bleList[i].name == data.name) return (this.bleList[i] = data)
                             this.bleList.push(data)
                         }
-                    }
+                    } else plus.toast(res.msg)
                 },
                 () => {
                     this.scanning = ''

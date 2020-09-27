@@ -53,6 +53,9 @@ export default {
                 plus.register('OnBandConnected', res => {
                     callback(res)
                 })
+                plus.register('OnBandConnectTimeout', res => {
+                    callback(res)
+                })
                 plus.register('OnBandDisconnected', res => {
                     callback2(res)
                 })
