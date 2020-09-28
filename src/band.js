@@ -9,12 +9,13 @@ export default {
     // 初始化手环解锁加锁事件
     init() {
         if (!this.INIT) {
-            console.log('INIT BAND JS API')
             plus.register('BandLock', () => {
-                this.lock()
+                console.log('LOCK')
+                //this.lock()
             })
             plus.register('BandUnlock', () => {
-                this.unlock()
+                console.log('UNLOCK')
+                //this.unlock()
             })
             this.INIT = 1
         }
@@ -117,16 +118,23 @@ export default {
             }
         })
     },
-    // 同步计步
-    syncStep(callback) {
+    /* 同步计步
+     * callback 同步成功回调
+     * callback2 当计步产生变化会回调
+     */
+    syncStep(callback, callback2) {
         if (this.lock()) return console.log('LOCK')
         console.log('call plus sync step')
         plus.call('syncStep', {}, res => {
             if (!res.status) callback(res)
-            else
+            else {
                 plus.register('OnBandStepSync', res => {
                     callback(res)
                 })
+                plus.register('OnBandStepChange', res => {
+                    callback2(res)
+                })
+            }
         })
     },
     // 同步时间
@@ -190,6 +198,16 @@ export default {
                 })
         })
     },
+    syncTemperature(callback) {
+        console.log('call plus sync temperature')
+        plus.call('syncTemperature', {}, res => {
+            if (!res.status) callback(res)
+            else
+                plus.register('OnBandTemperatureSync', res => {
+                    callback(res)
+                })
+        })
+    },
     // 测心率
     testRate(flag = true, callback) {
         if (this.lock()) return console.log('LOCK')
@@ -218,10 +236,9 @@ export default {
     INIT: 0,
     LOCK: 0,
     lock() {
-        return this.LOCK++
+        return false //this.LOCK++
     },
     unlock() {
-        console.log('UNLOCK')
         this.LOCK = 0
     }
 }

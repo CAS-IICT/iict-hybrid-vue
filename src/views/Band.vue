@@ -18,12 +18,13 @@
                         <mu-button color="primary" @click="bandBattery">手环电量</mu-button>
                     </mu-form-item>
                     <mu-form-item class="btn-box">
-                        <mu-button color="primary" @click="temperatureStatus(false)">测状态</mu-button>
+                        <mu-button color="primary" @click="temperatureStatus()">测状态</mu-button>
                         <mu-button color="primary" @click="getTemp">测体温</mu-button>
                         <mu-button color="primary" @click="testRate">测心率</mu-button>
                         <mu-button color="primary" @click="testBloodPressure">测血压</mu-button>
                     </mu-form-item>
                     <mu-form-item class="btn-box">
+                        <mu-button color="primary" @click="syncTemp">同步体温</mu-button>
                         <mu-button color="primary" @click="syncStep">同步计步</mu-button>
                         <mu-button color="primary" @click="syncSleep">同步睡眠</mu-button>
                         <mu-button color="primary" @click="syncRate">同步心率</mu-button>
@@ -84,12 +85,6 @@ export default {
     },
     mounted() {
         this.checkConnectStatus()
-        // 步数变化
-        plus.register('OnBandStepChange', res => {
-            this.step = res.data.step
-            this.distance = res.data.distance
-            this.calories = res.data.calories
-        })
     },
     methods: {
         scan() {
@@ -159,10 +154,17 @@ export default {
             })
         },
         syncStep() {
-            band.syncStep(res => {
-                console.log(res)
-                return plus.toast(res.msg)
-            })
+            band.syncStep(
+                res => {
+                    console.log(res)
+                    return plus.toast(res.msg)
+                },
+                res => {
+                    this.step = res.data.step
+                    this.distance = res.data.distance
+                    this.calories = res.data.calories
+                }
+            )
         },
         syncTime() {
             band.syncTime(res => {
@@ -191,6 +193,12 @@ export default {
         },
         syncBloodPressure() {
             band.syncBloodPressure(res => {
+                console.log(res)
+                return plus.toast(res.msg)
+            })
+        },
+        syncTemp() {
+            band.syncTemperature(res => {
                 console.log(res)
                 return plus.toast(res.msg)
             })
