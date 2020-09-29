@@ -30,6 +30,15 @@
                         <mu-button color="primary" @click="syncRate">同步心率</mu-button>
                         <mu-button color="primary" @click="syncBloodPressure">同步血压</mu-button>
                     </mu-form-item>
+                    <mu-form-item class="btn-box">
+                        <mu-button color="primary" @click="queryStepDate">查询今天步数</mu-button>
+                        <mu-button color="primary" @click="queryStepInfo">查询今天步数（详细）</mu-button>
+                        <mu-button color="primary" @click="querySleepDate">查询今天睡眠</mu-button>
+                        <mu-button color="primary" @click="querySleepInfo">查询今天睡眠（详细）</mu-button>
+                        <mu-button color="primary" @click="queryRateDate">查询今天心率</mu-button>
+                        <mu-button color="primary" @click="queryRateInfo">查询今天心率（详细）</mu-button>
+                        <mu-button color="primary" @click="queryBloodPressureDate">查询今天血压</mu-button>
+                    </mu-form-item>
                     <div v-if="battery">电量：{{ battery }}</div>
                     <div v-if="version">版本：{{ version }}</div>
                     <div v-if="bodyTemp">体温：{{ bodyTemp }}</div>
@@ -213,6 +222,41 @@ export default {
             band.testBloodPressure(true, res => {
                 if (!res.status) return plus.toast(res.msg)
                 else this.bloodPressure = res.data.p0 + '/' + res.data.p1 + '/' + res.data.p2
+            })
+        },
+        queryStepDate() {
+            band.queryStepDate(null, res => {
+                alert(res.data)
+            })
+        },
+        queryStepInfo() {
+            band.queryStepInfo(null, res => {
+                console.log(res)
+            })
+        },
+        queryRateDate() {
+            band.queryRateDate(null, res => {
+                console.log(res)
+            })
+        },
+        queryRateInfo() {
+            band.queryRateInfo(null, res => {
+                console.log(res)
+            })
+        },
+        querySleepDate() {
+            band.querySleepDate(null, res => {
+                console.log(res)
+            })
+        },
+        querySleepInfo() {
+            band.querySleepInfo(null, res => {
+                console.log(res)
+            })
+        },
+        queryBloodPressureDate() {
+            band.queryBloodPressureDate(null, res => {
+                console.log(res)
             })
         },
         unlock() {

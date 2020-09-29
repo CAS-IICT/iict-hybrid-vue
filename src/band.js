@@ -1,4 +1,5 @@
 import plus from './plus'
+import $ from './tool'
 /* 手环专用接口
  * 2020-9-17
  * 黄有为
@@ -232,7 +233,58 @@ export default {
                 })
         })
     },
-    // 互斥锁机制，手环的功能不可以并发执行
+    // 查询某一天步数
+    queryStepDate(date, callback) {
+        if (!date) date = $.formatDate(new Date(), 'yyyyMMdd')
+        console.log('call plus query step date')
+        plus.call('queryStepDate', { date: date }, res => {
+            callback(res)
+        })
+    },
+    // 计步详细
+    queryStepInfo(date, callback) {
+        if (!date) date = $.formatDate(new Date(), 'yyyyMMdd')
+        console.log('call plus query step info detail')
+        plus.call('queryStepInfo', { date: date }, res => {
+            callback(res)
+        })
+    },
+    querySleepDate(date, callback) {
+        if (!date) date = $.formatDate(new Date(), 'yyyyMMdd')
+        console.log('call plus query sleep date')
+        plus.call('querySleepDate', { date: date }, res => {
+            callback(res)
+        })
+    },
+    querySleepInfo(date, callback) {
+        if (!date) date = $.formatDate(new Date(), 'yyyyMMdd')
+        console.log('call plus query sleep info detail')
+        plus.call('querySleepInfo', { date: date }, res => {
+            callback(res)
+        })
+    },
+    queryRateDate(date, callback) {
+        if (!date) date = $.formatDate(new Date(), 'yyyyMMdd')
+        console.log('call plus query rate date')
+        plus.call('queryRateDate', { date: date }, res => {
+            callback(res)
+        })
+    },
+    queryRateInfo(date, callback) {
+        if (!date) date = $.formatDate(new Date(), 'yyyyMMdd')
+        console.log('call plus query rate info detail')
+        plus.call('queryRateInfo', { date: date }, res => {
+            callback(res)
+        })
+    },
+    queryBloodPressureDate(date, callback) {
+        if (!date) date = $.formatDate(new Date(), 'yyyyMMdd')
+        console.log('call plus blood pressure date')
+        plus.call('queryBloodPressureDate', { date: date }, res => {
+            callback(res)
+        })
+    },
+    // 互斥锁机制，手环的功能并发执行问题，暂时废弃
     INIT: 0,
     LOCK: 0,
     lock() {
