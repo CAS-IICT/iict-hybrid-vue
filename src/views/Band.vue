@@ -38,6 +38,8 @@
                         <mu-button color="primary" @click="queryRateDate">查询今天心率</mu-button>
                         <mu-button color="primary" @click="queryRateInfo">查询今天心率（详细）</mu-button>
                         <mu-button color="primary" @click="queryBloodPressureDate">查询今天血压</mu-button>
+                        <mu-button color="primary" @click="queryTemperatureDate">查询今天体温</mu-button>
+                        <mu-button color="primary" @click="queryTemperatureInfo">查询全部体温</mu-button>
                     </mu-form-item>
                     <div v-if="battery">电量：{{ battery }}</div>
                     <div v-if="version">版本：{{ version }}</div>
@@ -256,6 +258,16 @@ export default {
         },
         queryBloodPressureDate() {
             band.queryBloodPressureDate(null, res => {
+                console.log(res)
+            })
+        },
+        queryTemperatureDate() {
+            band.queryTemperatureDate(null, res => {
+                console.log(res)
+            })
+        },
+        queryTemperatureInfo() {
+            band.queryTemperatureInfo(res => {
                 console.log(res)
             })
         },

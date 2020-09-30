@@ -284,6 +284,19 @@ export default {
             callback(res)
         })
     },
+    queryTemperatureDate(date, callback) {
+        if (!date) date = $.formatDate(new Date(), 'yyyyMMdd')
+        console.log('call plus temperature date')
+        plus.call('queryTemperatureDate', { date: date }, res => {
+            callback(res)
+        })
+    },
+    queryTemperatureInfo(callback) {
+        console.log('call plus temperature all info')
+        plus.call('queryTemperatureInfo', {}, res => {
+            callback(res)
+        })
+    },
     // 互斥锁机制，手环的功能并发执行问题，暂时废弃
     INIT: 0,
     LOCK: 0,
