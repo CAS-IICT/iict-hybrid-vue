@@ -27,6 +27,7 @@
                     <mu-button color="primary" @click="openBle">打开蓝牙</mu-button>
                     <mu-button color="primary" @click="scanBle(false)">扫描蓝牙(普通)</mu-button>
                     <mu-button color="primary" @click="scanBle(true)">扫描蓝牙(low power)</mu-button>
+                    <mu-button color="primary" @click="scanWifi">扫描WIFI</mu-button>
                 </mu-form-item>
                 <mu-list>
                     <mu-list-item
@@ -120,8 +121,21 @@ export default {
             console.log(res)
         },
         async scanBle(lowpower = false) {
-            this.regBleScanResult()
-            plus.scanBle(15000, lowpower)
+            this.bleList = []
+            plus.scanBle(5000, lowpower, res => {
+                let data = res.data
+                if (data.name && data.mac) {
+                    for (let i in this.bleList) if (this.bleList[i].mac == data.mac) return (this.bleList[i] = data)
+                    this.bleList.push(data)
+                }
+            })
+        },
+        async scanWifi() {
+            let res = await plus.scanWifi()
+            console.log(res)
+            if (res.status == 1) {
+                this.bleList = res.data
+            }
         },
         async checkBle() {
             let res = await plus.checkBle()
@@ -139,32 +153,8 @@ export default {
             let res = await plus.getWeather(type)
             console.log(res)
         },
-        async regBleScanResult(batch) {
-            this.bleList = []
-            if (batch) {
-                console.log('register BleOnBatchScanResult')
-                plus.register('BleOnBatchScanResult', res => {
-                    console.log(res)
-                    // 注册蓝牙返回消息
-                    let data = res.data
-                    this.bleList = data
-                })
-            } else {
-                console.log('register BleOnScanResult')
-                plus.register('BleOnScanResult', res => {
-                    console.log(res)
-                    // 注册蓝牙返回消息
-                    let data = res.data
-                    if (data.name && data.mac) {
-                        for (let i in this.bleList)
-                            if (this.bleList[i].name == data.name) return (this.bleList[i] = data)
-                        this.bleList.push(data)
-                    }
-                })
-            }
-        },
         connectBle(device) {
-            const info = `uuid: ${device.uuids[0]}\nmac: ${device.mac}\nrssi: ${device.rssi}`
+            const info = `uuid: ${device.uuids && device.uuids[0]}\nmac: ${device.mac}\nrssi: ${device.rssi}`
             plus.alert(device.name, info)
             //plus.connectBle(device)
         },

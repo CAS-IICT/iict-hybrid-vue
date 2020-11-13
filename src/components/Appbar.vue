@@ -4,7 +4,7 @@
         <!-- <span>相应的提示信息</span> -->
         <!-- <span icon="keyboard_arrow_left"></span> -->
         <!-- </mu-appbar> -->
-        <mu-appbar title="Title" style="width: 100%;" class="example-appbar" color="primary">
+        <mu-appbar title="Title" style="width: 100%" class="example-appbar" color="primary">
             <div class="table">
                 <div class="cell" v-if="showBack" @click="goback"><mu-icon value="keyboard_arrow_left"></mu-icon></div>
                 <div class="cell">{{ title }}</div>

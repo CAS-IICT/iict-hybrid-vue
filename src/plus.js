@@ -147,10 +147,33 @@ export default {
             })
         })
     },
-    scanBle(time = 10000, lowPower = false) {
+    // 扫描蓝牙，分为lowPower mode和普通模式，普通模式不支持时间长度控制
+    // 普通模式，无法获得uuid
+    // lowPower模式可以获取GATT服务的广播，常用，且可以获得UUID
+    scanBle(time = 10000, lowPower = false, callback = null, callback2 = null, callback3 = null) {
         console.log('call plus scan ble')
+        this.call('scanBle', { time: time, lowPower: lowPower }, res => {
+            if (res.status == 1) {
+                console.log('register ble scan result')
+                this.register('OnBleScanResult', res => {
+                    res.status = 1
+                    callback && callback(res)
+                })
+                this.register('OnBleFinishScan', res => {
+                    res.status = 0
+                    callback2 && callback2(res)
+                })
+                // 扫描失败
+                this.register('OnBleScanFailed', res => {
+                    callback3 && callback3(res)
+                })
+            } else callback3 && callback3(res)
+        })
+    },
+    scanWifi() {
+        console.log('call plus scan wifi')
         return new Promise(resolve => {
-            this.call('scanBle', { time: time, lowPower: lowPower }, function (data) {
+            this.call('scanWifi', {}, function (data) {
                 resolve(data)
             })
         })
