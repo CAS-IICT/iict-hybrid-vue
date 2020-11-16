@@ -121,20 +121,28 @@ export default {
             console.log(res)
         },
         async scanBle(lowpower = false) {
-            this.bleList = []
+            this.bleList = [] //清除扫描历史列表
             plus.scanBle(5000, lowpower, res => {
                 let data = res.data
                 if (data.name && data.mac) {
+                    // 遍历是否已经扫描到过
                     for (let i in this.bleList) if (this.bleList[i].mac == data.mac) return (this.bleList[i] = data)
                     this.bleList.push(data)
                 }
             })
         },
         async scanWifi() {
+            this.bleList = []
             let res = await plus.scanWifi()
-            console.log(res)
             if (res.status == 1) {
-                this.bleList = res.data
+                // 过滤同mac
+                let list = {}
+                for (let item of res.data) {
+                    list[item.mac] = item
+                }
+                for (let i in list) {
+                    this.bleList.push(list[i])
+                }
             }
         },
         async checkBle() {
