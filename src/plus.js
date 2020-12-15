@@ -76,6 +76,14 @@ export default {
             })
         })
     },
+    splash(flag = true, delay = 1000) {
+        console.log('call plus splash')
+        return new Promise(resolve => {
+            this.call('splash', { flag: flag, delay: delay }, function (data) {
+                resolve(data)
+            })
+        })
+    },
     go(url, loading = false) {
         console.log('call plus go')
         return new Promise(resolve => {
@@ -150,6 +158,9 @@ export default {
     // 扫描蓝牙，分为lowPower mode和普通模式，普通模式不支持时间长度控制
     // 普通模式，无法获得uuid
     // lowPower模式可以获取GATT服务的广播，常用，且可以获得UUID
+    // callback 成功扫描到结果
+    // callback2 扫描结束
+    // callback3 扫描失败
     scanBle(time = 10000, lowPower = false, callback = null, callback2 = null, callback3 = null) {
         console.log('call plus scan ble')
         this.call('scanBle', { time: time, lowPower: lowPower }, res => {
@@ -276,6 +287,14 @@ export default {
         console.log('call plus get window size')
         return new Promise(resolve => {
             this.call('getWinSize', {}, function (data) {
+                resolve(data)
+            })
+        })
+    },
+    getNavBarSize() {
+        console.log('call plus get navbar size')
+        return new Promise(resolve => {
+            this.call('getNavBarSize', {}, function (data) {
                 resolve(data)
             })
         })

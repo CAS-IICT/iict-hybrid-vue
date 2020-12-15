@@ -2,6 +2,8 @@
 
 项目是中科院计算所苏研院构建的 Hybrid 的开发框架
 
+是一款原生和前端均可定制的 Hybrid 框架
+
 iict-hybrid-vue 对应的是 hybrid 的前端部分
 
 本项目作为示范，以供对原生接口调用方法的参考
@@ -47,6 +49,8 @@ npm run dev
 -   lib.css 覆盖使用的类库 css，例如 elementUI，vantUI 等
 
 ## plus 下与原生对接方法的说明
+
+以下的方法均可在 plus.js 之中查看，在 android 端提供原生方法，在 plus 下补充前端调用的封装方法
 
 1. setupWebViewJavascriptBridge
 
@@ -148,30 +152,33 @@ npm run dev
 
     获取屏幕宽高
 
-28. scanBand
+28. getNavBarSize
+    Android 底部导航栏信息，包括 MIUI 下的横线，indicator
+
+29. scanBand
     扫描手环，其实和蓝牙扫描用的是同样的方法
 
-29. connectBand
+30. connectBand
     连接手环
 
-30. disconnectBand
+31. disconnectBand
     断开手环
 
 ## Issues
 
 ### 关于蓝牙扫描
 
-1. Google 自从 Android 6.0 后禁止使用 getAddress 获得蓝牙 MAC 地址
-2. 自从 Android 10 后全面禁止了获得本机蓝牙 MAC 地址
-3. 使用 UUID 作为蓝牙唯一标识
-4. 在传统蓝牙扫描下无法获得周围的蓝牙设备 UUID，必须采用 lowpower mode 的 BLE 蓝牙
-5. UUID 在 setGATT 时候随机生成，意味着每次调用 setGATT 都会改变，一共四个，其中其他蓝牙扫到的是 serviceUUID
-6. BLE 蓝牙需要在 Android 5.1 以上并且手机硬件支持
-7. Android 8 以下 getMAC 仍然可以获得蓝牙 MAC 地址的
+1. 从 Android 6.0 后禁止使用 getAddress 获得蓝牙 MAC 地址
+2. 从 Android 10 后全面禁止了获得本机蓝牙 MAC 地址
+3. Android 8 以下 getMAC 仍然可以获得蓝牙 MAC 地址的
+4. 使用 UUID 作为蓝牙唯一标识
+5. 在传统蓝牙扫描下无法获得周围的蓝牙设备 UUID，必须采用 lowpower mode 的 BLE 蓝牙
+6. UUID 在 setGATT 时候随机生成，意味着每次调用 setGATT 都会改变，一共四个，其中其他蓝牙扫到的是 serviceUUID
+7. BLE 蓝牙需要在 Android 5.1 以上并且手机硬件支持
 
 ### 关于手环
 
--   手环是本项目需求，属于附加 API
+-   手环是项目需求，属于附加 API
 -   采用的是同乐达手环 SDK
 
 ## Copyright

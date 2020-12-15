@@ -1,5 +1,4 @@
 <template>
-    <!-- <h2>登录页面的测试</h2> -->
     <div class="login">
         <Appbar title="登录" class="appbar"></Appbar>
         <mu-container class="loginBox">
@@ -12,11 +11,6 @@
                 </mu-form-item>
                 <mu-form-item class="btn-box">
                     <mu-button color="primary" @click="goBand">关于手环</mu-button>
-                </mu-form-item>
-                <mu-form-item class="btn-box">
-                    <mu-button color="primary" @click="showUserInfo">查看信息</mu-button>
-                    <mu-button color="primary" @click="signOut">退出登陆</mu-button>
-                    <mu-button color="primary" @click="crack">crack</mu-button>
                 </mu-form-item>
                 <div>BLE: {{ mac.bluetooth }}</div>
                 <div>WIFI: {{ mac.wifi }}</div>
@@ -59,6 +53,7 @@
                 </mu-form-item>
                 <mu-form-item class="btn-box">
                     <mu-button color="primary" @click="switchStatusColor()">切换状态栏颜色</mu-button>
+                    <mu-button color="primary" @click="getNavBarSize()">获取底部navbar信息</mu-button>
                 </mu-form-item>
             </mu-form>
         </mu-container>
@@ -96,11 +91,6 @@ export default {
         this.getWinSize()
     },
     methods: {
-        // CheckDataIsNull(val) {
-        //     if (val == null || val == '') {
-        //         return false
-        //     } else return true
-        // },
         goBand() {
             this.$router.push('/Band')
         },
@@ -222,18 +212,16 @@ export default {
                     })
                 await $.sleep(1)
             }
+        },
+        getNavBarSize() {
+            plus.getNavBarSize().then(res => {
+                console.log(res)
+            })
         }
     }
 }
 </script>
-<style>
-.appbar {
-    position: fixed;
-    top: 0;
-    opacity: 1;
-    z-index: 999;
-    width: 100%;
-}
+<style scoped>
 .mu-demo-form {
     width: 100%;
     max-width: 460px;
@@ -244,6 +232,10 @@ export default {
 }
 
 .loginBox {
-    padding: 20% 5%;
+    position: absolute;
+    padding-top: 0.5rem;
+    top: 2.2rem;
+    bottom: 0;
+    overflow-y: scroll;
 }
 </style>
