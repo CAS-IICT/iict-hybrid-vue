@@ -6,6 +6,8 @@ import router from './router'
 import './assets/style.css'
 import './assets/animation.css'
 import './assets/lib.css'
+import Ripple from 'vue-ripple-directive'
+Vue.directive('ripple', Ripple)
 
 // 第三方专用
 import VueLazyload from 'vue-lazyload' // 圖片嬾加載

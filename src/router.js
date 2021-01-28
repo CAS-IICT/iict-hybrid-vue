@@ -38,23 +38,7 @@ const router = new Router({
         {
             path: '/index',
             name: 'index',
-            // component: () => import('./views/Index.vue'),
-            component: Index,
-            // redirect: 'home',
-            children: [
-                // 首页
-                {
-                    path: '/home',
-                    name: 'home',
-                    component: Home
-                },
-                // 个人中心
-                {
-                    path: '/personal',
-                    name: 'personal',
-                    component: Personal
-                }
-            ]
+            component: Index
         }
     ]
 })

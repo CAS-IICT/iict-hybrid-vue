@@ -18,6 +18,7 @@
                 <div v-for="(item, index) in uuids" :key="index">{{ item }}</div>
                 <mu-form-item class="btn-box">
                     <mu-button color="primary" @click="checkBle">检查蓝牙</mu-button>
+                    <mu-button color="primary" @click="listenBle">监听蓝牙</mu-button>
                     <mu-button color="primary" @click="openBle">打开蓝牙</mu-button>
                     <mu-button color="primary" @click="scanBle(false)">扫描蓝牙(普通)</mu-button>
                     <mu-button color="primary" @click="scanBle(true)">扫描蓝牙(low power)</mu-button>
@@ -142,6 +143,13 @@ export default {
         async openBle() {
             let res = await plus.openBle()
             console.log(res)
+        },
+        // 监听
+        async listenBle() {
+            plus.toast('开启监听')
+            plus.listenBle(res => {
+                plus.toast(res.msg)
+            })
         },
         async getLoc() {
             let res = await plus.getLoc()

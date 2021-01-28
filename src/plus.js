@@ -298,5 +298,26 @@ export default {
                 resolve(data)
             })
         })
+    },
+    listenBle(callback, callback2) {
+        console.log('call plus listen bluetooth')
+        this.call('listenBle', {}, res => {
+            if (res.status == 1) {
+                this.register('OnBleOn', res => {
+                    callback && callback(res)
+                })
+                this.register('OnBleOff', res => {
+                    callback && callback(res)
+                })
+                this.register('OnBleOning', res => {
+                    callback && callback(res)
+                })
+                this.register('OnBleOffing', res => {
+                    callback && callback(res)
+                })
+            } else {
+                callback2 && callback2(res)
+            }
+        })
     }
 }
